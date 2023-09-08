@@ -1,2 +1,2 @@
-# .NET_labs
-Labs of the .NET NSU course (2023)
+# Задачи по курсу введение в С# и платформу .NET
+
