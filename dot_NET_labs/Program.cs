@@ -1,4 +1,6 @@
-﻿namespace dot_NET_labs;
+﻿using StrategyLibrary;
+
+namespace dot_NET_labs;
 
 class Program
 {
