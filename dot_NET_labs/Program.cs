@@ -6,8 +6,7 @@ class Program
     
     public static void Main(string[] args)
     {
-        var experiment = new SimpleExperiment(new PickFirstStrategy(), 
-            new PickFirstStrategy(), Shuffled36CardDeck.CreateCardDeck());
+        var experiment = new SimpleExperiment(new PickFirstStrategy(), new PickFirstStrategy());
         var success = 0;
         for (int i = 0; i < NumExperiments; i++)
         {

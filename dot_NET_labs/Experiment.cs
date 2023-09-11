@@ -9,17 +9,18 @@ public class SimpleExperiment : IExperiment
 {
     private readonly IStrategy _maskStrategy;
     private readonly IStrategy _zuckerbergStrategy;
-    private readonly ShuffledCardDeck _cardDeck;
+    private ShuffledCardDeck? _cardDeck;
 
-    public SimpleExperiment(IStrategy maskStrategy, IStrategy zuckerbergStrategy, ShuffledCardDeck cardDeck)
+    public SimpleExperiment(IStrategy maskStrategy, IStrategy zuckerbergStrategy)
     {
         _maskStrategy = maskStrategy;
         _zuckerbergStrategy = zuckerbergStrategy;
-        _cardDeck = cardDeck;
     }
     
     public bool Do()
     {
+        _cardDeck ??= Shuffled36CardDeck.CreateCardDeck();
+        
         _cardDeck.Shuffle();
         _cardDeck.Split(out var maskDeck, out var zuckerbergDeck);
         
