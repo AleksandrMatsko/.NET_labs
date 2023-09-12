@@ -22,11 +22,17 @@ public class CardDeck
         }
         return line;
     }
+
+    // swaps i and j cards
+    public void SwapCards(int i, int j)
+    {
+        (Cards[i], Cards[j]) = (Cards[j], Cards[i]);
+    }
 }
 
 public class ShuffledCardDeck : CardDeck
 {
-    private static readonly Random rnd = new Random();
+    private static readonly Random Rnd = new Random();
     
     protected ShuffledCardDeck(Card[] cards) : base(cards)
     {
@@ -37,7 +43,7 @@ public class ShuffledCardDeck : CardDeck
     {
         for (int i = Cards.Length - 1; i >= 0; i--)
         {
-            var j = rnd.Next(i + 1);
+            var j = Rnd.Next(i + 1);
             (Cards[i], Cards[j]) = (Cards[j], Cards[i]);
         }
     }
