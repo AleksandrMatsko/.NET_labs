@@ -22,30 +22,18 @@ public class CardDeck
         }
         return line;
     }
+}
 
+public class ShuffleableCardDeck : CardDeck
+{
+    protected ShuffleableCardDeck(Card[] cards) : base(cards)
+    {
+    }
+    
     // swaps i and j cards
     public void SwapCards(int i, int j)
     {
         (Cards[i], Cards[j]) = (Cards[j], Cards[i]);
-    }
-}
-
-public class ShuffledCardDeck : CardDeck
-{
-    private static readonly Random Rnd = new Random();
-    
-    protected ShuffledCardDeck(Card[] cards) : base(cards)
-    {
-    }
-
-    // uses Fisher–Yates shuffle
-    public void Shuffle()
-    {
-        for (int i = Cards.Length - 1; i >= 0; i--)
-        {
-            var j = Rnd.Next(i + 1);
-            (Cards[i], Cards[j]) = (Cards[j], Cards[i]);
-        }
     }
 
     // splits card deck into two card decks
@@ -66,13 +54,13 @@ public class ShuffledCardDeck : CardDeck
     }
 }
 
-public class Shuffled36CardDeck : ShuffledCardDeck
+public class Shuffleable36CardDeck : ShuffleableCardDeck
 {
-    private Shuffled36CardDeck(Card[] cards) : base(cards)
+    private Shuffleable36CardDeck(Card[] cards) : base(cards)
     {
     }
 
-    public static Shuffled36CardDeck CreateCardDeck()
+    public static Shuffleable36CardDeck CreateCardDeck()
     {
         Card[] cards = new Card[36];
         for (int i = 0; i < 36; i += 2)
@@ -80,6 +68,6 @@ public class Shuffled36CardDeck : ShuffledCardDeck
             cards[i] = new Card(CardColor.Black, i);
             cards[i + 1] = new Card(CardColor.Red, i + 1);
         }
-        return new Shuffled36CardDeck(cards);
+        return new Shuffleable36CardDeck(cards);
     }
 }

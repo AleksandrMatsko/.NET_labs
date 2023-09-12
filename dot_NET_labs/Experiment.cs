@@ -11,19 +11,22 @@ public class SimpleExperiment : IExperiment
 {
     private readonly IStrategy _maskStrategy;
     private readonly IStrategy _zuckerbergStrategy;
-    private ShuffledCardDeck? _cardDeck;
+    private readonly IDeckShuffler _deckShuffler;
+    private ShuffleableCardDeck? _cardDeck;
 
-    public SimpleExperiment(IStrategy maskStrategy, IStrategy zuckerbergStrategy)
+    public SimpleExperiment(IDeckShuffler deckShuffler, IStrategy maskStrategy, IStrategy zuckerbergStrategy)
     {
         _maskStrategy = maskStrategy;
         _zuckerbergStrategy = zuckerbergStrategy;
+        _deckShuffler = deckShuffler;
     }
     
     public bool Do()
     {
-        _cardDeck ??= Shuffled36CardDeck.CreateCardDeck();
+        _cardDeck ??= Shuffleable36CardDeck.CreateCardDeck();
         
-        _cardDeck.Shuffle();
+        _deckShuffler.Shuffle(ref _cardDeck);
+        
         _cardDeck.Split(out var maskDeck, out var zuckerbergDeck);
         
         var maskChoice = _maskStrategy.Decide(maskDeck);
