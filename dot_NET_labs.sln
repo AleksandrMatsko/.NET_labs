@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dot_NET_labs", "dot_NET_lab
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyLibrary", "StrategyLibrary\StrategyLibrary.csproj", "{B1D4CFBF-8370-44D3-AB99-6D38EA8E9903}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardLibrary", "CardLibrary\CardLibrary.csproj", "{8774AADC-A3BA-45C2-9D24-C9A8C23C2E0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{B1D4CFBF-8370-44D3-AB99-6D38EA8E9903}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1D4CFBF-8370-44D3-AB99-6D38EA8E9903}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1D4CFBF-8370-44D3-AB99-6D38EA8E9903}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8774AADC-A3BA-45C2-9D24-C9A8C23C2E0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8774AADC-A3BA-45C2-9D24-C9A8C23C2E0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8774AADC-A3BA-45C2-9D24-C9A8C23C2E0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8774AADC-A3BA-45C2-9D24-C9A8C23C2E0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

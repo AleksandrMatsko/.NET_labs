@@ -1,4 +1,4 @@
-﻿namespace StrategyLibrary;
+﻿namespace CardLibrary;
 
 public interface IDeckShuffler
 {

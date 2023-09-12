@@ -1,4 +1,6 @@
-﻿namespace StrategyLibrary;
+﻿using CardLibrary;
+
+namespace StrategyLibrary;
 
 public interface IStrategy
 {
