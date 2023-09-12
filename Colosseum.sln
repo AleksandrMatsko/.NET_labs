@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dot_NET_labs", "dot_NET_labs\dot_NET_labs.csproj", "{43657560-3A45-4487-9DE9-67BB65CA3AE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colosseum", "Colosseum\Colosseum.csproj", "{43657560-3A45-4487-9DE9-67BB65CA3AE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyLibrary", "StrategyLibrary\StrategyLibrary.csproj", "{B1D4CFBF-8370-44D3-AB99-6D38EA8E9903}"
 EndProject

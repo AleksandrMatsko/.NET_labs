@@ -1,7 +1,7 @@
 ﻿using CardLibrary;
 using StrategyLibrary;
 
-namespace dot_NET_labs;
+namespace Colosseum;
 
 class Program
 {
