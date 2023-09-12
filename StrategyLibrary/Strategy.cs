@@ -2,12 +2,12 @@
 
 namespace StrategyLibrary;
 
-public interface IStrategy
+public interface ICardPickStrategy
 {
     int Decide(in CardDeck cardDeck);
 }
 
-public class PickFirstStrategy : IStrategy
+public class PickFirstCardPickStrategy : ICardPickStrategy
 {
     public int Decide(in CardDeck cardDeck)
     {
@@ -15,7 +15,7 @@ public class PickFirstStrategy : IStrategy
     }
 }
 
-public class RandomStrategy : IStrategy
+public class RandomCardPickStrategy : ICardPickStrategy
 {
     private static readonly Random rnd = new Random(); 
     
@@ -25,7 +25,7 @@ public class RandomStrategy : IStrategy
     }
 }
 
-public class PickLastStrategy : IStrategy
+public class PickLastCardPickStrategy : ICardPickStrategy
 {
     public int Decide(in CardDeck cardDeck)
     {

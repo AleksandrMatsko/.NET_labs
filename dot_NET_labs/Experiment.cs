@@ -10,15 +10,15 @@ public interface IExperiment
 
 public class SimpleExperiment : IExperiment
 {
-    private readonly IStrategy _maskStrategy;
-    private readonly IStrategy _zuckerbergStrategy;
+    private readonly ICardPickStrategy _maskCardPickStrategy;
+    private readonly ICardPickStrategy _zuckerbergCardPickStrategy;
     private readonly IDeckShuffler _deckShuffler;
     private ShuffleableCardDeck? _cardDeck;
 
-    public SimpleExperiment(IDeckShuffler deckShuffler, IStrategy maskStrategy, IStrategy zuckerbergStrategy)
+    public SimpleExperiment(IDeckShuffler deckShuffler, ICardPickStrategy maskCardPickStrategy, ICardPickStrategy zuckerbergCardPickStrategy)
     {
-        _maskStrategy = maskStrategy;
-        _zuckerbergStrategy = zuckerbergStrategy;
+        _maskCardPickStrategy = maskCardPickStrategy;
+        _zuckerbergCardPickStrategy = zuckerbergCardPickStrategy;
         _deckShuffler = deckShuffler;
     }
     
@@ -30,8 +30,8 @@ public class SimpleExperiment : IExperiment
         
         _cardDeck.Split(out var maskDeck, out var zuckerbergDeck);
         
-        var maskChoice = _maskStrategy.Decide(maskDeck);
-        var zuckerbergChoice = _zuckerbergStrategy.Decide(zuckerbergDeck);
+        var maskChoice = _maskCardPickStrategy.Decide(maskDeck);
+        var zuckerbergChoice = _zuckerbergCardPickStrategy.Decide(zuckerbergDeck);
         return maskDeck[zuckerbergChoice].Color == zuckerbergDeck[maskChoice].Color;
     }
 }

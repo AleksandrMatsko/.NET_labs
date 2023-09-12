@@ -10,7 +10,7 @@ class Program
     public static void Main(string[] args)
     {
         var experiment = new SimpleExperiment(new RandomDeckShuffler(), 
-            new PickFirstStrategy(), new PickFirstStrategy());
+            new PickFirstCardPickStrategy(), new PickFirstCardPickStrategy());
         var success = 0;
         for (int i = 0; i < NumExperiments; i++)
         {
