@@ -30,8 +30,8 @@ public class SimpleExperiment : IExperiment
         
         _cardDeck.Split(out var maskDeck, out var zuckerbergDeck);
         
-        var maskChoice = _maskCardPickStrategy.Decide(maskDeck);
-        var zuckerbergChoice = _zuckerbergCardPickStrategy.Decide(zuckerbergDeck);
+        var maskChoice = _maskCardPickStrategy.Choose(maskDeck);
+        var zuckerbergChoice = _zuckerbergCardPickStrategy.Choose(zuckerbergDeck);
         return maskDeck[zuckerbergChoice].Color == zuckerbergDeck[maskChoice].Color;
     }
 }
