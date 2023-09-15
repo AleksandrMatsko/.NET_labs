@@ -26,7 +26,7 @@ public class SimpleExperiment : IExperiment
     {
         _cardDeck ??= Shuffleable36CardDeck.CreateCardDeck();
         
-        _deckShuffler.Shuffle(ref _cardDeck);
+        _deckShuffler.Shuffle(_cardDeck);
         
         _cardDeck.Split(out var maskDeck, out var zuckerbergDeck);
         

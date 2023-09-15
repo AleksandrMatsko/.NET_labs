@@ -2,7 +2,7 @@
 
 public interface IDeckShuffler
 {
-    void Shuffle(ref ShuffleableCardDeck cardDeck);
+    void Shuffle(ShuffleableCardDeck cardDeck);
 }
 
 public class RandomDeckShuffler : IDeckShuffler
@@ -10,7 +10,7 @@ public class RandomDeckShuffler : IDeckShuffler
     private static readonly Random Rnd = new Random();
     
     // uses Fisher–Yates shuffle
-    public void Shuffle(ref ShuffleableCardDeck cardDeck)
+    public void Shuffle(ShuffleableCardDeck cardDeck)
     {
         for (var i = cardDeck.Length - 1; i >= 0; i--)
         {
