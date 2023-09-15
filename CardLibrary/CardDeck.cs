@@ -12,16 +12,6 @@ public class CardDeck
     {
         Cards = cards;
     }
-
-    public override string ToString()
-    {
-        string line = "";
-        for (int i = 0; i < Cards.Length; i++)
-        {
-            line += $"{Cards[i].Number} ";
-        }
-        return line;
-    }
 }
 
 public class ShuffleableCardDeck : CardDeck
@@ -42,15 +32,9 @@ public class ShuffleableCardDeck : CardDeck
     // if CardsDeck.Length is not even should throw an exception
     public void Split(out CardDeck first, out CardDeck second)
     {
-        var len = Cards.Length;
-        if (len % 2 != 0)
-        {
-            // TODO: throw exception
-        }
-
-        var mid = len / 2;
-        first = new CardDeck(Cards.Take(len / 2).ToArray());
-        second = new CardDeck(Cards.Skip(len / 2).ToArray());
+        var mid = Cards.Length / 2;
+        first = new CardDeck(Cards.Take(mid).ToArray());
+        second = new CardDeck(Cards.Skip(mid).ToArray());
     }
 }
 

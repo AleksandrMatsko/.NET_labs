@@ -19,6 +19,6 @@ class Program
                 success += 1;
             }
         }
-        Console.WriteLine($"Success percent: {(double)success / NumExperiments}");
+        Console.WriteLine($"Success rate: {(double)success / NumExperiments}");
     }
 }
