@@ -2,7 +2,7 @@
 
 public class CardDeck
 {
-    protected Card[] Cards;
+    protected readonly Card[] Cards;
     
     public Card this[int i] => Cards[i];
     
@@ -29,7 +29,7 @@ public class ShuffleableCardDeck : CardDeck
     // splits card deck into two card decks
     // first == first half of the deck
     // second == second half of the deck
-    // if CardsDeck.Length is not even should throw an exception
+    // if CardsDeck.Length is not even first will have CardDeck.Length / 2 cards
     public void Split(out CardDeck first, out CardDeck second)
     {
         var mid = Cards.Length / 2;
