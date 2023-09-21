@@ -9,10 +9,10 @@ class Program
 {
     public static void Main(string[] args)
     {
-        CreateHostBuilder(args).Build().Run();
+       CreateHostBuilder(args).Build().RunAsync();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args)
+    private static IHostBuilder CreateHostBuilder(string[] args)
     {
         return Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
@@ -20,8 +20,8 @@ class Program
                 services.AddHostedService<ExperimentWorker>();
                 services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
                 services.AddScoped<IExperiment, SimpleExperiment>();
-                services.AddSingleton(provider => new Player("Elon Mask", new PickFirstCardPickStrategy()));
-                services.AddSingleton(provider => new Player("Mark Zuckerberg", new PickFirstCardPickStrategy()));
+                services.AddSingleton<Player>(provider => new ElonMask(new PickFirstCardStrategy()));
+                services.AddSingleton<Player>(provider => new MarkZuckerberg(new PickFirstCardStrategy()));
             });
     }
 }

@@ -3,14 +3,13 @@ using StrategyLibrary;
 
 namespace Colosseum;
 
-public class Player
+public abstract class Player
 {
-    public string Name { get; }
-    private ICardPickStrategy _strategy;
+    public abstract string Name { get; }
+    private readonly ICardPickStrategy _strategy;
 
-    public Player(string name, ICardPickStrategy strategy)
+    protected Player(ICardPickStrategy strategy)
     {
-        Name = name;
         _strategy = strategy;
     }
 
@@ -18,4 +17,22 @@ public class Player
     {
         return _strategy.Choose(cardDeck);
     }
+}
+
+public class ElonMask : Player
+{
+    public ElonMask(ICardPickStrategy strategy) : base(strategy)
+    {
+    }
+
+    public override string Name { get; } = "Elon Mask";
+}
+
+public class MarkZuckerberg : Player
+{
+    public MarkZuckerberg(ICardPickStrategy strategy) : base(strategy)
+    {
+    }
+
+    public override string Name { get; } = "Mark Zuckerberg";
 }

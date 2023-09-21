@@ -7,7 +7,7 @@ public interface ICardPickStrategy
     int Choose(in CardDeck cardDeck);
 }
 
-public class PickFirstCardPickStrategy : ICardPickStrategy
+public class PickFirstCardStrategy : ICardPickStrategy
 {
     public int Choose(in CardDeck cardDeck)
     {
