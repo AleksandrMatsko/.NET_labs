@@ -14,14 +14,8 @@ class Program
             new Player("Elon Mask", new PickFirstCardPickStrategy()), 
             new Player("Mark Zuckerberg", new PickFirstCardPickStrategy())
             );
-        var success = 0;
-        for (int i = 0; i < NumExperiments; i++)
-        {
-            if (experiment.Do())
-            {
-                success += 1;
-            }
-        }
+        var worker = new ExperimentWorker(NumExperiments);
+        var success = worker.Run(experiment);
         Console.WriteLine($"Success rate: {(double)success / NumExperiments}");
     }
 }
