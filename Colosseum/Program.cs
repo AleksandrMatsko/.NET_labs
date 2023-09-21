@@ -9,8 +9,11 @@ class Program
     
     public static void Main(string[] args)
     {
-        var experiment = new SimpleExperiment(new RandomDeckShuffler(), 
-            new PickFirstCardPickStrategy(), new PickFirstCardPickStrategy());
+        var experiment = new SimpleExperiment(
+            new RandomDeckShuffler(), 
+            new Player("Elon Mask", new PickFirstCardPickStrategy()), 
+            new Player("Mark Zuckerberg", new PickFirstCardPickStrategy())
+            );
         var success = 0;
         for (int i = 0; i < NumExperiments; i++)
         {
