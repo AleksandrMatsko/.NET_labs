@@ -14,16 +14,18 @@ public class SimpleExperiment : IExperiment
     private readonly Player _secondPlayer;
     private readonly IDeckShuffler _deckShuffler;
     private ShuffleableCardDeck? _cardDeck;
-    private readonly ILogger _logger;
 
-    public SimpleExperiment(IDeckShuffler deckShuffler, Player firstPlayer, Player secondPlayer, ILogger<SimpleExperiment> logger)
+    public SimpleExperiment(
+        IDeckShuffler deckShuffler, 
+        Player firstPlayer, 
+        Player secondPlayer, 
+        ILogger<SimpleExperiment> logger)
     {
         _firstPlayer = firstPlayer;
         _secondPlayer = secondPlayer;
         _deckShuffler = deckShuffler;
-        _logger = logger;
-        
-        _logger.LogInformation($"Experiment participants: {_firstPlayer.Name} and {_secondPlayer.Name}");
+
+        logger.LogInformation($"Experiment participants: {_firstPlayer.Name} and {_secondPlayer.Name}");
     }
     
     public bool Do()

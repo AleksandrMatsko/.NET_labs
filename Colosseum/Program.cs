@@ -20,8 +20,8 @@ class Program
                 services.AddHostedService<ExperimentWorker>();
                 services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
                 services.AddScoped<IExperiment, SimpleExperiment>();
-                services.AddSingleton<Player>(provider => new ElonMask(new PickFirstCardStrategy()));
-                services.AddSingleton<Player>(provider => new MarkZuckerberg(new PickFirstCardStrategy()));
+                services.AddSingleton<Player>(new ElonMask(new PickFirstCardStrategy()));
+                services.AddSingleton<Player>(new MarkZuckerberg(new PickFirstCardStrategy()));
             });
     }
 }

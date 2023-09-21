@@ -25,7 +25,7 @@ public class ElonMask : Player
     {
     }
 
-    public override string Name { get; } = "Elon Mask";
+    public override string Name => "Elon Mask";
 }
 
 public class MarkZuckerberg : Player
@@ -34,5 +34,5 @@ public class MarkZuckerberg : Player
     {
     }
 
-    public override string Name { get; } = "Mark Zuckerberg";
+    public override string Name => "Mark Zuckerberg";
 }

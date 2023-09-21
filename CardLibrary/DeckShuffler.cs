@@ -7,7 +7,7 @@ public interface IDeckShuffler
 
 public class RandomDeckShuffler : IDeckShuffler
 {
-    private static readonly Random Rnd = new Random();
+    private static readonly Random Rnd = new();
     
     // uses Fisher–Yates shuffle
     public void Shuffle(ShuffleableCardDeck cardDeck)
