@@ -1,9 +1,10 @@
 ﻿using CardLibrary;
 using CardLibrary.Abstractions;
 using Colosseum.Abstractions;
+using Colosseum.Exceptions;
 using Microsoft.Extensions.Logging;
 
-namespace Colosseum;
+namespace Colosseum.Impl;
 
 public class SimpleExperiment : IExperiment
 {

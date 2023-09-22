@@ -1,4 +1,4 @@
-﻿namespace Colosseum;
+﻿namespace Colosseum.Exceptions;
 
 public class NotEnoughPlayersException : Exception
 {
