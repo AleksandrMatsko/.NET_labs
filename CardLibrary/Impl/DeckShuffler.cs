@@ -1,13 +1,10 @@
-﻿namespace CardLibrary;
+﻿using CardLibrary.Abstractions;
 
-public interface IDeckShuffler
-{
-    void Shuffle(ShuffleableCardDeck cardDeck);
-}
+namespace CardLibrary.Impl;
 
 public class RandomDeckShuffler : IDeckShuffler
 {
-    private static readonly Random Rnd = new Random();
+    private static readonly Random Rnd = new();
     
     // uses Fisher–Yates shuffle
     public void Shuffle(ShuffleableCardDeck cardDeck)

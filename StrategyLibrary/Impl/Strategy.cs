@@ -1,13 +1,9 @@
 ﻿using CardLibrary;
+using StrategyLibrary.Interfaces;
 
-namespace StrategyLibrary;
+namespace StrategyLibrary.Impl;
 
-public interface ICardPickStrategy
-{
-    int Choose(in CardDeck cardDeck);
-}
-
-public class PickFirstCardPickStrategy : ICardPickStrategy
+public class PickFirstCardStrategy : ICardPickStrategy
 {
     public int Choose(in CardDeck cardDeck)
     {
@@ -17,15 +13,15 @@ public class PickFirstCardPickStrategy : ICardPickStrategy
 
 public class RandomCardPickStrategy : ICardPickStrategy
 {
-    private static readonly Random rnd = new Random(); 
+    private static readonly Random Rnd = new Random(); 
     
     public int Choose(in CardDeck cardDeck)
     {
-        return rnd.Next(cardDeck.Length);
+        return Rnd.Next(cardDeck.Length);
     }
 }
 
-public class PickLastCardPickStrategy : ICardPickStrategy
+public class PickLastCardStrategy : ICardPickStrategy
 {
     public int Choose(in CardDeck cardDeck)
     {

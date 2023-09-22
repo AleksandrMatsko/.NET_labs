@@ -1,24 +1,30 @@
-﻿using CardLibrary;
-using StrategyLibrary;
+﻿using CardLibrary.Abstractions;
+using CardLibrary.Impl;
+using Colosseum.Impl;
+using Colosseum.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using StrategyLibrary.Impl;
 
 namespace Colosseum;
 
 class Program
 {
-    private const int NumExperiments = 1_000_000;
-    
     public static void Main(string[] args)
     {
-        var experiment = new SimpleExperiment(new RandomDeckShuffler(), 
-            new PickFirstCardPickStrategy(), new PickFirstCardPickStrategy());
-        var success = 0;
-        for (int i = 0; i < NumExperiments; i++)
-        {
-            if (experiment.Do())
+       CreateHostBuilder(args).Build().Run();
+    }
+
+    private static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Host.CreateDefaultBuilder(args)
+            .ConfigureServices((hostContext, services) =>
             {
-                success += 1;
-            }
-        }
-        Console.WriteLine($"Success rate: {(double)success / NumExperiments}");
+                services.AddHostedService<ExperimentWorker>();
+                services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
+                services.AddScoped<IExperiment, SimpleExperiment>();
+                services.AddSingleton<AbstractPlayer>(new ElonMask(new PickFirstCardStrategy()));
+                services.AddSingleton<AbstractPlayer>(new MarkZuckerberg(new PickFirstCardStrategy()));
+            });
     }
 }
