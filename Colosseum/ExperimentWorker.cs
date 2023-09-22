@@ -8,11 +8,13 @@ public class ExperimentWorker : BackgroundService
     public int ExperimentCount { get; set; } = 1_000_000;
     private readonly IExperiment _experiment;
     private readonly ILogger _logger;
+    private readonly IHostApplicationLifetime _lifetime;
 
-    public ExperimentWorker(IExperiment experiment, ILogger<ExperimentWorker> logger)
+    public ExperimentWorker(IExperiment experiment, ILogger<ExperimentWorker> logger, IHostApplicationLifetime lifetime)
     {
         _experiment = experiment;
         _logger = logger;
+        _lifetime = lifetime;
     }
     
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,6 +36,8 @@ public class ExperimentWorker : BackgroundService
         
         Console.WriteLine($"Experiments completed: {experimentsCompleted}");
         Console.WriteLine($"Success rate: {(double)success / (experimentsCompleted)}");
+        
+        _lifetime.StopApplication();
         
         return Task.CompletedTask;
     }
