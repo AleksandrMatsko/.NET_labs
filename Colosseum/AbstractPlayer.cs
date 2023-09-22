@@ -3,12 +3,12 @@ using StrategyLibrary;
 
 namespace Colosseum;
 
-public abstract class Player
+public abstract class AbstractPlayer
 {
     public abstract string Name { get; }
     private readonly ICardPickStrategy _strategy;
 
-    protected Player(ICardPickStrategy strategy)
+    protected AbstractPlayer(ICardPickStrategy strategy)
     {
         _strategy = strategy;
     }
@@ -19,7 +19,7 @@ public abstract class Player
     }
 }
 
-public class ElonMask : Player
+public class ElonMask : AbstractPlayer
 {
     public ElonMask(ICardPickStrategy strategy) : base(strategy)
     {
@@ -28,7 +28,7 @@ public class ElonMask : Player
     public override string Name => "Elon Mask";
 }
 
-public class MarkZuckerberg : Player
+public class MarkZuckerberg : AbstractPlayer
 {
     public MarkZuckerberg(ICardPickStrategy strategy) : base(strategy)
     {

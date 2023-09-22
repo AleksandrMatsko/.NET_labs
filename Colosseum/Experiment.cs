@@ -10,19 +10,23 @@ public interface IExperiment
 
 public class SimpleExperiment : IExperiment
 {
-    private readonly Player _firstPlayer;
-    private readonly Player _secondPlayer;
+    private readonly AbstractPlayer _firstPlayer;
+    private readonly AbstractPlayer _secondPlayer;
     private readonly IDeckShuffler _deckShuffler;
     private ShuffleableCardDeck? _cardDeck;
 
     public SimpleExperiment(
         IDeckShuffler deckShuffler, 
-        Player firstPlayer, 
-        Player secondPlayer, 
-        ILogger<SimpleExperiment> logger)
+        ILogger<SimpleExperiment> logger, 
+        IEnumerable<AbstractPlayer> players)
     {
-        _firstPlayer = firstPlayer;
-        _secondPlayer = secondPlayer;
+        var enumerable = players as AbstractPlayer[] ?? players.ToArray();
+        if (enumerable.Length < 2)
+        {
+            throw new NotEnoughPlayersException($"expected 2 players, have {enumerable.Length}");
+        }
+        _firstPlayer = enumerable[0];
+        _secondPlayer = enumerable[1];
         _deckShuffler = deckShuffler;
 
         logger.LogInformation($"Experiment participants: {_firstPlayer.Name} and {_secondPlayer.Name}");

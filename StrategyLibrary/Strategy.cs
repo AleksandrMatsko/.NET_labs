@@ -17,15 +17,15 @@ public class PickFirstCardStrategy : ICardPickStrategy
 
 public class RandomCardPickStrategy : ICardPickStrategy
 {
-    private static readonly Random rnd = new Random(); 
+    private static readonly Random Rnd = new Random(); 
     
     public int Choose(in CardDeck cardDeck)
     {
-        return rnd.Next(cardDeck.Length);
+        return Rnd.Next(cardDeck.Length);
     }
 }
 
-public class PickLastCardPickStrategy : ICardPickStrategy
+public class PickLastCardStrategy : ICardPickStrategy
 {
     public int Choose(in CardDeck cardDeck)
     {

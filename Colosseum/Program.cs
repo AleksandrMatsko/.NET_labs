@@ -5,6 +5,8 @@ using StrategyLibrary;
 
 namespace Colosseum;
 
+// IHostedApplicationLifetime
+
 class Program
 {
     public static void Main(string[] args)
@@ -20,8 +22,8 @@ class Program
                 services.AddHostedService<ExperimentWorker>();
                 services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
                 services.AddScoped<IExperiment, SimpleExperiment>();
-                services.AddSingleton<Player>(new ElonMask(new PickFirstCardStrategy()));
-                services.AddSingleton<Player>(new MarkZuckerberg(new PickFirstCardStrategy()));
+                services.AddSingleton<AbstractPlayer>(new ElonMask(new PickFirstCardStrategy()));
+                services.AddSingleton<AbstractPlayer>(new MarkZuckerberg(new PickFirstCardStrategy()));
             });
     }
 }
