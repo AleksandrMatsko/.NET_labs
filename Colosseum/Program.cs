@@ -1,11 +1,12 @@
-﻿using CardLibrary;
+﻿using CardLibrary.Abstractions;
+using CardLibrary.Impl;
+using Colosseum.Impl;
+using Colosseum.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using StrategyLibrary;
+using StrategyLibrary.Impl;
 
 namespace Colosseum;
-
-// IHostedApplicationLifetime
 
 class Program
 {

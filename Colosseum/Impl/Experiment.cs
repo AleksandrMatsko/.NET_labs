@@ -1,12 +1,9 @@
 ﻿using CardLibrary;
+using CardLibrary.Abstractions;
+using Colosseum.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace Colosseum;
-
-public interface IExperiment
-{
-    bool Do();
-}
 
 public class SimpleExperiment : IExperiment
 {

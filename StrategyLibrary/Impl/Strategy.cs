@@ -1,11 +1,7 @@
 ﻿using CardLibrary;
+using StrategyLibrary.Interfaces;
 
-namespace StrategyLibrary;
-
-public interface ICardPickStrategy
-{
-    int Choose(in CardDeck cardDeck);
-}
+namespace StrategyLibrary.Impl;
 
 public class PickFirstCardStrategy : ICardPickStrategy
 {

@@ -1,9 +1,6 @@
-﻿namespace CardLibrary;
+﻿using CardLibrary.Abstractions;
 
-public interface IDeckShuffler
-{
-    void Shuffle(ShuffleableCardDeck cardDeck);
-}
+namespace CardLibrary.Impl;
 
 public class RandomDeckShuffler : IDeckShuffler
 {
