@@ -19,6 +19,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CardLibrary\CardLibrary.csproj" />
+      <ProjectReference Include="..\StrategyLibrary\StrategyLibrary.csproj" />
     </ItemGroup>
 
 
