@@ -16,13 +16,14 @@ public class CardDeck
 
 public class ShuffleableCardDeck : CardDeck
 {
-    protected ShuffleableCardDeck(Card[] cards) : base(cards)
+    public ShuffleableCardDeck(Card[] cards) : base(cards)
     {
     }
     
     // swaps i and j cards
     public void SwapCards(int i, int j)
     {
+        if (i >= Cards.Length || j >= Cards.Length) return;
         (Cards[i], Cards[j]) = (Cards[j], Cards[i]);
     }
 
