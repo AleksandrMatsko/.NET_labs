@@ -1,6 +1,6 @@
 ﻿using CardLibrary;
 
-namespace ColosseumTests;
+namespace ColosseumTests.DeckTests;
 
 [TestFixture]
 public class ShuffleableCardDeckTests
