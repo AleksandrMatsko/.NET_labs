@@ -1,4 +1,5 @@
-﻿using CardLibrary.Abstractions;
+﻿using CardLibrary;
+using CardLibrary.Abstractions;
 using CardLibrary.Impl;
 using Colosseum.Impl;
 using Colosseum.Abstractions;
@@ -12,7 +13,7 @@ class Program
 {
     public static void Main(string[] args)
     {
-       CreateHostBuilder(args).Build().Run();
+        CreateHostBuilder(args).Build().Run();
     }
 
     private static IHostBuilder CreateHostBuilder(string[] args)
