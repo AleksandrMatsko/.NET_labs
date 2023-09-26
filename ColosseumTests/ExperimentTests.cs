@@ -34,7 +34,7 @@ public class ExperimentTests
         }
         
         deck.Split(out _firstAfterSplit, out _secondAfterSplit);
-        _deckMock = new Mock<ShuffleableCardDeck>((IList<Card>)cardList);
+        _deckMock = new Mock<ShuffleableCardDeck>(cardList);
         _deckMock.Setup(d => d.Split(out _firstAfterSplit, out _secondAfterSplit));
 
         _elonMock = new Mock<AbstractPlayer>(new PickFirstCardStrategy());

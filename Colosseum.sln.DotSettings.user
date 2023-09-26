@@ -1,9 +1,22 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=47936d9f_002D2fed_002D488a_002D9791_002D804c42aa9e5d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;ColosseumTests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\AMats\RiderProjects\Colosseum\ColosseumTests" Presentation="&amp;lt;ColosseumTests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=736dce59_002Df81e_002D456d_002D8aed_002D39a9164dc9f0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CardDeckTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::7EFF3F9D-91F6-449E-8B05-5A092F75F69D::net7.0::ColosseumTests.CardDeckTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::7EFF3F9D-91F6-449E-8B05-5A092F75F69D::net7.0::ColosseumTests.CardTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::7EFF3F9D-91F6-449E-8B05-5A092F75F69D::net7.0::ColosseumTests.ShuffleableCardDeckTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8ed670fa_002D55c7_002D4a75_002D9b64_002D539ddaccfed2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestPlayerFollowsStrategy" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::7EFF3F9D-91F6-449E-8B05-5A092F75F69D::net7.0::ColosseumTests.PlayersTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9f1bbc53_002Db10c_002D4a76_002Dbcb2_002D204f47a55aec/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PlayersTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::7EFF3F9D-91F6-449E-8B05-5A092F75F69D::net7.0::ColosseumTests.PlayersTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ae593df5_002D3086_002D4177_002D8dd5_002D7b210c7c3373/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CardDeckTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;

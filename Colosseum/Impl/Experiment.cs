@@ -11,7 +11,7 @@ public class SimpleExperiment : IExperiment
     private readonly AbstractPlayer _firstPlayer;
     private readonly AbstractPlayer _secondPlayer;
     private readonly IDeckShuffler _deckShuffler;
-    private ShuffleableCardDeck _cardDeck;
+    private readonly ShuffleableCardDeck _cardDeck;
 
     public SimpleExperiment(
         ShuffleableCardDeck cardDeck,
