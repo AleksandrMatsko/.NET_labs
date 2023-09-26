@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using CardLibrary;
+﻿using CardLibrary;
 using CardLibrary.Abstractions;
-using CardLibrary.Impl;
 using Colosseum.Abstractions;
 using Colosseum.Impl;
 using Microsoft.Extensions.Logging;
@@ -38,7 +36,6 @@ public class ExperimentTests
         deck.Split(out _firstAfterSplit, out _secondAfterSplit);
         _deckMock = new Mock<ShuffleableCardDeck>((IList<Card>)cardList);
         _deckMock.Setup(d => d.Split(out _firstAfterSplit, out _secondAfterSplit));
-        //_deckMock.Setup(d => d.Length).Returns(cards.Length);
 
         _elonMock = new Mock<AbstractPlayer>(new PickFirstCardStrategy());
         _elonMock.Setup(e => e.Choose(_firstAfterSplit)).Returns(0);
