@@ -59,7 +59,7 @@ public class ExperimentTests
         
         Assert.DoesNotThrow(() =>
         {
-            _shufflerMock.Verify(s => s.Shuffle(It.IsAny<ShuffleableCardDeck>()), Times.AtLeastOnce);
+            _shufflerMock.Verify(s => s.Shuffle(It.IsAny<ShuffleableCardDeck>()), Times.Once);
             _deckMock.Verify(deck => deck.Split(out _firstAfterSplit, out _secondAfterSplit), Times.Once);
             _elonMock.Verify(e => e.Choose(It.IsAny<CardDeck>()), Times.Once);
             _markMock.Verify(e => e.Choose(It.IsAny<CardDeck>()), Times.Once);
