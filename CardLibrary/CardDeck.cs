@@ -12,17 +12,25 @@ public class CardDeck
     {
         Cards = cards;
     }
+
+    public CardDeck(IList<Card> cards)
+    {
+        Cards = cards.ToArray();
+    }
 }
 
 public class ShuffleableCardDeck : CardDeck
 {
-    protected ShuffleableCardDeck(Card[] cards) : base(cards)
+    public ShuffleableCardDeck(Card[] cards) : base(cards)
     {
     }
+    
+    public ShuffleableCardDeck(IList<Card> cards) : base(cards) {}
     
     // swaps i and j cards
     public void SwapCards(int i, int j)
     {
+        if (i >= Cards.Length || j >= Cards.Length) return;
         (Cards[i], Cards[j]) = (Cards[j], Cards[i]);
     }
 
@@ -30,7 +38,7 @@ public class ShuffleableCardDeck : CardDeck
     // first == first half of the deck
     // second == second half of the deck
     // if CardsDeck.Length is not even first will have CardDeck.Length / 2 cards
-    public void Split(out CardDeck first, out CardDeck second)
+    public virtual void Split(out CardDeck first, out CardDeck second)
     {
         var mid = Cards.Length / 2;
         first = new CardDeck(Cards.Take(mid).ToArray());

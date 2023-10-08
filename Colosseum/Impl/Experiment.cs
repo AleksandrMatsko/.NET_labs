@@ -1,18 +1,20 @@
 ﻿using CardLibrary;
 using CardLibrary.Abstractions;
 using Colosseum.Abstractions;
+using Colosseum.Exceptions;
 using Microsoft.Extensions.Logging;
 
-namespace Colosseum;
+namespace Colosseum.Impl;
 
 public class SimpleExperiment : IExperiment
 {
     private readonly AbstractPlayer _firstPlayer;
     private readonly AbstractPlayer _secondPlayer;
     private readonly IDeckShuffler _deckShuffler;
-    private ShuffleableCardDeck? _cardDeck;
+    private readonly ShuffleableCardDeck _cardDeck;
 
     public SimpleExperiment(
+        ShuffleableCardDeck cardDeck,
         IDeckShuffler deckShuffler, 
         ILogger<SimpleExperiment> logger, 
         IEnumerable<AbstractPlayer> players)
@@ -24,6 +26,7 @@ public class SimpleExperiment : IExperiment
         }
         _firstPlayer = enumerable[0];
         _secondPlayer = enumerable[1];
+        _cardDeck = cardDeck;
         _deckShuffler = deckShuffler;
 
         logger.LogInformation($"Experiment participants: {_firstPlayer.Name} and {_secondPlayer.Name}");
@@ -31,8 +34,6 @@ public class SimpleExperiment : IExperiment
     
     public bool Do()
     {
-        _cardDeck ??= Shuffleable36CardDeck.CreateCardDeck();
-        
         _deckShuffler.Shuffle(_cardDeck);
         
         _cardDeck.Split(out var firstDeck, out var secondDeck);

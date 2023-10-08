@@ -14,7 +14,7 @@ public abstract class AbstractPlayer
         _strategy = strategy;
     }
 
-    public int Choose(CardDeck cardDeck)
+    public virtual int Choose(CardDeck cardDeck)
     {
         return _strategy.Choose(cardDeck);
     }
