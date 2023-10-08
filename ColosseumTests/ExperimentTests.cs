@@ -9,7 +9,7 @@ using StrategyLibrary.Impl;
 namespace ColosseumTests;
 
 [TestFixture]
-public class ExperimentTests
+public class SimpleExperimentTests
 {
     
     private Mock<IDeckShuffler> _shufflerMock;
@@ -47,7 +47,7 @@ public class ExperimentTests
     }
     
     [Test]
-    public void TestSimpleExperiment()
+    public void SimpleExperiment_CallsShuffle_OnlyOnce()
     {
         var lf = new LoggerFactory();
         var experiment = new SimpleExperiment(
@@ -55,15 +55,63 @@ public class ExperimentTests
             _shufflerMock.Object,
             lf.CreateLogger<SimpleExperiment>(),
             new[]{_elonMock.Object, _markMock.Object});
+        
         var result = experiment.Do();
         
         Assert.DoesNotThrow(() =>
         {
             _shufflerMock.Verify(s => s.Shuffle(It.IsAny<ShuffleableCardDeck>()), Times.Once);
+        });
+    }
+
+    [Test]
+    public void SimpleExperiment_CallsSplit_OnlyOnce()
+    {
+        var lf = new LoggerFactory();
+        var experiment = new SimpleExperiment(
+            _deckMock.Object,
+            _shufflerMock.Object,
+            lf.CreateLogger<SimpleExperiment>(),
+            new[] { _elonMock.Object, _markMock.Object });
+
+        var result = experiment.Do();
+
+        Assert.DoesNotThrow(() =>
+        {
             _deckMock.Verify(deck => deck.Split(out _firstAfterSplit, out _secondAfterSplit), Times.Once);
+        });
+    }
+
+    [Test]
+    public void SimpleExperiment_CallsChooseForEachPlayer_OnlyOnce()
+    {
+        var lf = new LoggerFactory();
+        var experiment = new SimpleExperiment(
+            _deckMock.Object, 
+            _shufflerMock.Object,
+            lf.CreateLogger<SimpleExperiment>(),
+            new[]{_elonMock.Object, _markMock.Object});
+        
+        var result = experiment.Do();
+        
+        Assert.DoesNotThrow(() =>
+        {
             _elonMock.Verify(e => e.Choose(It.IsAny<CardDeck>()), Times.Once);
             _markMock.Verify(e => e.Choose(It.IsAny<CardDeck>()), Times.Once);
         });
+    }
+    
+    [Test]
+    public void SimpleExperiment_Has_ExpectedResult()
+    {
+        var lf = new LoggerFactory();
+        var experiment = new SimpleExperiment(
+            _deckMock.Object, 
+            _shufflerMock.Object,
+            lf.CreateLogger<SimpleExperiment>(),
+            new[]{_elonMock.Object, _markMock.Object});
+        
+        var result = experiment.Do();
         
         Assert.That(result, Is.EqualTo(_firstAfterSplit[0].Color == _secondAfterSplit[0].Color));
     }

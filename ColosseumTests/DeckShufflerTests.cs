@@ -5,11 +5,12 @@ using ColosseumTests.DeckTests;
 namespace ColosseumTests;
 
 [TestFixture]
-public class DeckShufflerTests
+public class RandomDeckShufflerTests
 {
+    // The probability that the deck will not be shuffled by a RandomDeckShuffler is considered very low
     [TestCase(10)]
     [TestCase(36)]
-    public void TestShuffling(int count)
+    public void Shuffle_ShuffleableCardDeck_SwapsAtLeast2Cards(int count)
     {
         var cards = CardDeckUtils.PrepareCards(count);
         var deckCards = new Card[cards.Length];
@@ -27,5 +28,7 @@ public class DeckShufflerTests
                 Assert.Pass();
             }
         }
+        
+        Assert.Fail();
     }
 }

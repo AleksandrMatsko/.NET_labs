@@ -24,7 +24,7 @@ public class ShuffleableCardDeckTests
     }
     
     [Test]
-    public void TestSwapInEmptyCardDeck()
+    public void Swap_InEmptyCardDeck_DoesNotThrowException()
     {
         var cards = CardDeckUtils.PrepareCards(0);
         var deck = new ShuffleableCardDeck(cards);
@@ -36,7 +36,7 @@ public class ShuffleableCardDeckTests
     [TestCase(3)]
     [TestCase(10)]
     [TestCase(1_000)]
-    public void TestSwapInCardDeck(int count)
+    public void Swap_InCardDeck_ReallySwapsCards(int count)
     {
         var cards = CardDeckUtils.PrepareCards(count);
         var deck = new ShuffleableCardDeck(cards);
@@ -51,7 +51,7 @@ public class ShuffleableCardDeckTests
     }
 
     [Test]
-    public void TestSplitInEmptyCardDeck()
+    public void Split_InEmptyCardDeck_ReturnsEmptyCardDecks()
     {
         var cards = CardDeckUtils.PrepareCards(0);
         var deck = new ShuffleableCardDeck(cards);
@@ -64,7 +64,7 @@ public class ShuffleableCardDeckTests
     [TestCase(2)]
     [TestCase(4)]
     [TestCase(1_000)]
-    public void TestSplitWithEvenCardsCount(int count)
+    public void Split_WithEvenCardsCount_Returns2CardDecksWithEqualAmountOfCards(int count)
     {
         var cards = CardDeckUtils.PrepareCards(count);
         var deck = new ShuffleableCardDeck(cards);
@@ -94,7 +94,7 @@ public class ShuffleableCardDeckTests
     [TestCase(1)]
     [TestCase(3)]
     [TestCase(1_001)]
-    public void TestSplitWithNotEvenCardsCount(int count)
+    public void Split_WithNotEvenCardsCount_Returns2CardDecksAndSecondDeckHas1MoreCard(int count)
     {
         var cards = CardDeckUtils.PrepareCards(count);
         var deck = new ShuffleableCardDeck(cards);

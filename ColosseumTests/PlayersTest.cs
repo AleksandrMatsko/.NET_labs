@@ -1,5 +1,4 @@
 ﻿using CardLibrary;
-using Colosseum.Abstractions;
 using Colosseum.Impl;
 using ColosseumTests.DeckTests;
 using Moq;
@@ -25,18 +24,25 @@ public class PlayersTest
         _strategyMock.Setup(s => s.Choose(_deck)).Returns(_retVal);
     }
         
-    [TestCase(typeof(ElonMask))]
-    [TestCase(typeof(MarkZuckerberg))]
-    public void TestPlayerFollowsStrategy(Type playerType)
+    [Test]
+    public void ElonMask_CallsStrategyMethodChoose_OnlyOnceAndHasSameRetValsWithPassedStrategy()
     {
-        var playerConstructor = playerType.GetConstructor(new[] { typeof(ICardPickStrategy) });
+        var player = new ElonMask(_strategyMock.Object);
+        
+        var playerChoice = player.Choose(_deck);
             
-        if (playerConstructor is null || !playerConstructor.IsConstructor)
+        Assert.DoesNotThrow(() =>
         {
-            Assert.Fail();
-        }
-            
-        var player = (AbstractPlayer)playerConstructor?.Invoke(new object?[]{_strategyMock.Object})!;
+            _strategyMock.Verify(s => s.Choose(_deck), Times.Once);
+        });
+        Assert.That(playerChoice, Is.EqualTo(_retVal));
+    }
+    
+    [Test]
+    public void MarkZuckerberg_CallsStrategyMethodChoose_OnlyOnceAndHasSameRetValsWithPassedStrategy()
+    {
+        var player = new MarkZuckerberg(_strategyMock.Object);
+        
         var playerChoice = player.Choose(_deck);
             
         Assert.DoesNotThrow(() =>

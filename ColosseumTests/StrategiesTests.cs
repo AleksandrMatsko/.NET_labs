@@ -11,7 +11,7 @@ public class StrategiesTests
     [TestCase(1)]
     [TestCase(2)]
     [TestCase(1_000)]
-    public void TestPickFirstStrategy(int count)
+    public void PickFirstStrategy_Choose_Always_Returns0(int count)
     {
         var deck = new CardDeck(CardDeckUtils.PrepareCards(count));
         var strategy = new PickFirstCardStrategy();
@@ -23,7 +23,7 @@ public class StrategiesTests
     [TestCase(1)]
     [TestCase(2)]
     [TestCase(1_000)]
-    public void TestPickLastStrategy(int count)
+    public void PickLastStrategy_Choose_Always_ReturnsOneLessThanDeckLength(int count)
     {
         var deck = new CardDeck(CardDeckUtils.PrepareCards(count));
         var strategy = new PickLastCardStrategy();

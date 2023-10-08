@@ -6,7 +6,7 @@ namespace ColosseumTests.DeckTests;
 public class Shuffleable36CardDeckTests
 {
     [Test]
-    public void TestCardsCount()
+    public void Shuffleable36CardDeck_Has_36Cards()
     {
         var deck = Shuffleable36CardDeck.CreateCardDeck();
         
@@ -14,7 +14,7 @@ public class Shuffleable36CardDeckTests
     }
 
     [Test]
-    public void TestColorsBalance()
+    public void Shuffleable36CardDeck_Has_EqualAmountOfBlackAndRedCards()
     {
         var deck = Shuffleable36CardDeck.CreateCardDeck();
 
