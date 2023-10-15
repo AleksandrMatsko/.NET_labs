@@ -10,10 +10,9 @@ public class WebStarter
         });
     }
     
-    public static void Main(String[] args)
+    public static void Main(string[] args)
     {
         var app = CreateBuilder().Build();
-
         app.Run();
     } 
 }
