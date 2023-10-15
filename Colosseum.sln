@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardLibrary", "CardLibrary\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColosseumTests", "ColosseumTests\ColosseumTests.csproj", "{7EFF3F9D-91F6-449E-8B05-5A092F75F69D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayersWebApp", "PlayersWebApp\PlayersWebApp.csproj", "{0515516F-C67F-468E-AFD3-5A8A4346573D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{7EFF3F9D-91F6-449E-8B05-5A092F75F69D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EFF3F9D-91F6-449E-8B05-5A092F75F69D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EFF3F9D-91F6-449E-8B05-5A092F75F69D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0515516F-C67F-468E-AFD3-5A8A4346573D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0515516F-C67F-468E-AFD3-5A8A4346573D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0515516F-C67F-468E-AFD3-5A8A4346573D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0515516F-C67F-468E-AFD3-5A8A4346573D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
