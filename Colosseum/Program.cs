@@ -23,9 +23,12 @@ class Program
             {
                 services.AddHostedService<ExperimentWorker>();
                 services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
-                services.AddScoped<IExperiment, SimpleExperiment>();
-                services.AddSingleton<AbstractPlayer>(new ElonMask(new PickFirstCardStrategy()));
-                services.AddSingleton<AbstractPlayer>(new MarkZuckerberg(new PickFirstCardStrategy()));
+                //services.AddScoped<IExperiment, SimpleExperiment>();
+                //services.AddSingleton<AbstractPlayer>(new ElonMask(new PickFirstCardStrategy()));
+                //services.AddSingleton<AbstractPlayer>(new MarkZuckerberg(new PickFirstCardStrategy()));
+                services.AddScoped<IExperiment, WithHttpExperiment>();
+                services.AddSingleton(new Uri("http://localhost:5031/player"));
+                services.AddSingleton(new Uri("http://localhost:5031/player"));
                 services.AddSingleton<ShuffleableCardDeck>(Shuffleable36CardDeck.CreateCardDeck());
             });
     }

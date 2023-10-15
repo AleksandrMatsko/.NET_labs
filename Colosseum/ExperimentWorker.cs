@@ -6,7 +6,7 @@ namespace Colosseum;
 
 public class ExperimentWorker : BackgroundService
 {
-    public int ExperimentCount { get; set; } = 1_000_000;
+    public int ExperimentCount { get; set; } = 100;
     private readonly IExperiment _experiment;
     private readonly ILogger _logger;
     private readonly IHostApplicationLifetime _lifetime;

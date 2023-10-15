@@ -2,6 +2,6 @@
 
 public class PlayerChoice
 {
-    public string Name { get; set; }
-    public int CardNumber { get; set; }
+    public required string Name { get; set; }
+    public required int CardNumber { get; set; }
 }
