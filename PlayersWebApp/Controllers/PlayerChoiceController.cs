@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Net;
+using System.Text.Json.Serialization;
 using CardLibrary;
 using Colosseum.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -28,14 +29,18 @@ public class PlayerChoiceController : ControllerBase
         var deck = CardDeckValidator.ValidateAndReturn(data.Result, out var messages);
 
         if (deck == null)
+        {
+            _logger.LogWarning($"response code: {HttpStatusCode.BadRequest}");
+            HttpContext.Response.StatusCode = 400;
             return new PlayerChoice()
             {
                 Name = _player.Name,
                 CardNumber = -1,
                 Errors = messages
             };
-        _logger.LogInformation($"cards received: {deck.Length}");
-        
+        }
+        _logger.LogInformation($"response code: {HttpStatusCode.OK}");
+        HttpContext.Response.StatusCode = 200;
         return new PlayerChoice
         {
             Name = _player.Name,
