@@ -2,6 +2,7 @@
 using CardLibrary;
 using Colosseum.Abstractions;
 using Microsoft.AspNetCore.Mvc;
+using PlayersWebApp.Validators;
 
 namespace PlayersWebApp.Controllers;
 
@@ -18,18 +19,23 @@ public class PlayerChoiceController : ControllerBase
         _logger = logger;
     }
     
-    // TODO: validation
     [HttpPost(Name = "choose")]
-    public PlayerChoice Choose([FromBody] IEnumerable<CardDto> cardDtos)
+    public PlayerChoice Choose()
     {
-        var cardList = new List<Card>();
-        foreach (var dto in cardDtos)
-        {
-            cardList.Add(dto.ToCard());
-        }
-        _logger.LogInformation($"cards received: {cardList.Count}");
+        var request = HttpContext.Request;
+        using var reader = new StreamReader(request.Body);
+        var data = reader.ReadToEndAsync();
+        var deck = CardDeckValidator.ValidateAndReturn(data.Result, out var messages);
 
-        var deck = new CardDeck(cardList);
+        if (deck == null)
+            return new PlayerChoice()
+            {
+                Name = _player.Name,
+                CardNumber = -1,
+                Errors = messages
+            };
+        _logger.LogInformation($"cards received: {deck.Length}");
+        
         return new PlayerChoice
         {
             Name = _player.Name,
@@ -38,13 +44,13 @@ public class PlayerChoiceController : ControllerBase
     }
 }
 
-public class CardDto
+public class CardFromClientDto
 {
-    [JsonPropertyName("color")]
+    [JsonPropertyName("Color")]
     [JsonRequired]
     public CardColor Color { get; set; }
     
-    [JsonPropertyName("number")]
+    [JsonPropertyName("Number")]
     [JsonRequired]
     public int Number { get; set; }
 

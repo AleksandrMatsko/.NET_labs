@@ -110,14 +110,17 @@ public class CardChoiceDto
     [JsonPropertyName("cardNumber")]
     [JsonRequired]
     public int CardNumber { get; set; }
+
+    [JsonPropertyName("errors")]
+    public IEnumerable<string> Errors { get; set; }
 }
 
 public class CardDto
 {
-    [JsonPropertyName("color")]
+    [JsonPropertyName("Color")]
     public CardColor Color { get; set; }
     
-    [JsonPropertyName("number")]
+    [JsonPropertyName("Number")]
     public int Number { get; set; }
 
     public CardDto(Card card)
