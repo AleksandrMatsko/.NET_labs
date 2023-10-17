@@ -5,7 +5,6 @@ using Colosseum.Impl;
 using Colosseum.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using StrategyLibrary.Impl;
 
 namespace Colosseum;
 
@@ -26,7 +25,7 @@ class Program
                 //services.AddScoped<IExperiment, SimpleExperiment>();
                 //services.AddSingleton<AbstractPlayer>(new ElonMask(new PickFirstCardStrategy()));
                 //services.AddSingleton<AbstractPlayer>(new MarkZuckerberg(new PickFirstCardStrategy()));
-                services.AddScoped<IExperiment, WithHttpExperiment>();
+                services.AddScoped<IExperiment, HttpExperiment>();
                 services.AddSingleton(new Uri("http://localhost:5031/player"));
                 services.AddSingleton(new Uri("http://localhost:5031/player"));
                 services.AddSingleton<ShuffleableCardDeck>(Shuffleable36CardDeck.CreateCardDeck());

@@ -22,23 +22,36 @@ public class ExperimentWorker : BackgroundService
     {
         var success = 0;
         var experimentsCompleted = 0;
-        for (int i = 0; i < ExperimentCount && !stoppingToken.IsCancellationRequested; i++)
+        int i = 0;
+        try
         {
-            if (i % 100000 == 0)
+            for (i = 0; i < ExperimentCount && !stoppingToken.IsCancellationRequested; i++)
             {
-                _logger.LogInformation($"Completed {i} iteration");
+                if (i % 100000 == 0)
+                {
+                    _logger.LogInformation($"Completed {i} iteration");
+                }
+
+                if (_experiment.Do())
+                {
+                    success += 1;
+                }
+
+                experimentsCompleted += 1;
             }
-            if (_experiment.Do())
-            {
-                success += 1;
-            }
-            experimentsCompleted += 1;
+
+            Console.WriteLine($"Experiments completed: {experimentsCompleted}");
+            Console.WriteLine($"Success rate: {(double)success / (experimentsCompleted)}");
         }
-        
-        Console.WriteLine($"Experiments completed: {experimentsCompleted}");
-        Console.WriteLine($"Success rate: {(double)success / (experimentsCompleted)}");
-        
-        _lifetime.StopApplication();
+        catch (Exception e)
+        {
+            _logger.LogCritical(e.Message);
+
+        }
+        finally
+        {
+            _lifetime.StopApplication();
+        }
         
         return Task.CompletedTask;
     }
