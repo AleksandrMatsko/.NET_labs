@@ -10,13 +10,6 @@ public class CardDeckValidator
 {
     private static JSchema? _jSchema;
     private static readonly int CardsCount = 18;
-
-    private static async Task<IList<CardFromClientDto>?> ReadAsync(JsonReader reader)
-    {
-        var serializer = new JsonSerializer();
-        return await new Task<IList<CardFromClientDto>?>(
-            () => serializer.Deserialize<IList<CardFromClientDto>>(reader));
-    }
     
     public static CardDeck? ValidateAndReturn(string data, out IList<string>? errMessages)
     {
