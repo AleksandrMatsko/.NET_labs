@@ -13,8 +13,8 @@ namespace Colosseum.Impl;
 public class HttpExperiment : IExperiment
 {
     private readonly ILogger<HttpExperiment> _logger;
-    private readonly HttpPlayerAsker _elonAsker;
-    private readonly HttpPlayerAsker _markAsker;
+    private readonly HttpPlayerAsker _firstAsker;
+    private readonly HttpPlayerAsker _secondAsker;
     private readonly IDeckShuffler _deckShuffler;
     private readonly ShuffleableCardDeck _cardDeck;
 
@@ -32,8 +32,8 @@ public class HttpExperiment : IExperiment
         }
 
         var lf = new LoggerFactory();
-        _elonAsker = new HttpPlayerAsker(urisArr[0], new Logger<HttpPlayerAsker>(lf));
-        _markAsker = new HttpPlayerAsker(urisArr[0], new Logger<HttpPlayerAsker>(lf));
+        _firstAsker = new HttpPlayerAsker(urisArr[0], new Logger<HttpPlayerAsker>(lf));
+        _secondAsker = new HttpPlayerAsker(urisArr[1], new Logger<HttpPlayerAsker>(lf));
         _deckShuffler = deckShuffler;
         _cardDeck = cardDeck;
     }
@@ -44,8 +44,8 @@ public class HttpExperiment : IExperiment
         
         _cardDeck.Split(out var firstDeck, out var secondDeck);
 
-        var t1 = _elonAsker.Ask(firstDeck);
-        var t2 = _markAsker.Ask(secondDeck);
+        var t1 = _firstAsker.Ask(firstDeck);
+        var t2 = _secondAsker.Ask(secondDeck);
 
         Task.WaitAll(t1, t2);
         

@@ -27,7 +27,7 @@ class Program
                 //services.AddSingleton<AbstractPlayer>(new MarkZuckerberg(new PickFirstCardStrategy()));
                 services.AddScoped<IExperiment, HttpExperiment>();
                 services.AddSingleton(new Uri("http://localhost:5031/player"));
-                services.AddSingleton(new Uri("http://localhost:5031/player"));
+                services.AddSingleton(new Uri("http://localhost:5032/player"));
                 services.AddSingleton<ShuffleableCardDeck>(Shuffleable36CardDeck.CreateCardDeck());
             });
     }

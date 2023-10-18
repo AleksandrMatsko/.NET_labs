@@ -24,7 +24,6 @@ public class CardDeckValidator
         {
             var generator = new JSchemaGenerator();
             _jSchema = generator.Generate(typeof(IEnumerable<CardFromClientDto>));
-            Console.WriteLine(_jSchema.ToString());
         }
         
         var reader = new JsonTextReader(new StringReader(data));
@@ -46,11 +45,7 @@ public class CardDeckValidator
 
         if (messages.Count == 0)
         {
-            var cards = new List<Card>();
-            foreach (var dto in cardDtosArray)
-            {
-                cards.Add(dto.ToCard());
-            }
+            var cards = cardDtosArray.Select(dto => dto.ToCard()).ToList();
             errMessages = null;
             return new CardDeck(cards);
         }

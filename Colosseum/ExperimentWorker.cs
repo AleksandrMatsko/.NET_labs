@@ -40,12 +40,12 @@ public class ExperimentWorker : BackgroundService
                 experimentsCompleted += 1;
             }
 
-            Console.WriteLine($"Experiments completed: {experimentsCompleted}");
-            Console.WriteLine($"Success rate: {(double)success / (experimentsCompleted)}");
+            Console.WriteLine($"\nExperiments completed: {experimentsCompleted}");
+            Console.WriteLine($"Success rate: {(double)success / experimentsCompleted}\n");
         }
         catch (Exception e)
         {
-            _logger.LogCritical(e.Message);
+            _logger.LogCritical($"iteration {i}: {e.Message}");
 
         }
         finally
