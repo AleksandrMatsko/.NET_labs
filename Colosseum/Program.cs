@@ -21,48 +21,45 @@ class Program
 
     private static IHostBuilder CreateHostBuilder(string[] args)
     {
-        if (args.Length == 0)
+        switch (args.Length)
         {
-            var myConfig = new MyConfig {ExperimentCount = 1_000_000, Request = DbRequest.None};
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddHostedService<ExperimentWorker>();
-                    services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
-                    services.AddScoped<IExperiment, SimpleExperiment>();
-                    services.AddSingleton<AbstractPlayer>(new ElonMask(new PickFirstCardStrategy()));
-                    services.AddSingleton<AbstractPlayer>(new MarkZuckerberg(new PickFirstCardStrategy()));
-                    services.AddSingleton(myConfig);
-                });
-        }
-        if (args.Length == 1)
-        {
-            MyConfig myConfig;
-            switch (args[0])
+            case 0:
             {
-                case "generate":
-                    myConfig = new MyConfig { ExperimentCount = 100, Request = DbRequest.Generate };
-                    break;
-                case "useGenerated":
-                    myConfig = new MyConfig { ExperimentCount = 100, Request = DbRequest.UseGenerated };
-                    break;
-                default:
-                    throw new ArgumentException($"bad cmd argument, available arguments are: generate, useGenerated");
+                var myConfig = new MyConfig {ExperimentCount = 1_000_000, Request = DbRequest.None};
+                return Host.CreateDefaultBuilder(args)
+                    .ConfigureServices((hostContext, services) =>
+                    {
+                        services.AddHostedService<ExperimentWorker>();
+                        services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
+                        services.AddScoped<IExperiment, SimpleExperiment>();
+                        services.AddSingleton<AbstractPlayer>(new ElonMask(new PickFirstCardStrategy()));
+                        services.AddSingleton<AbstractPlayer>(new MarkZuckerberg(new PickFirstCardStrategy()));
+                        services.AddSingleton(myConfig);
+                    });
             }
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
+            case 1:
+            {
+                var myConfig = args[0] switch
                 {
-                    services.AddHostedService<DbExperimentWorker>();
-                    services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
-                    services.AddScoped<IExperiment, HttpExperiment>();
-                    services.AddSingleton(new Uri("http://localhost:5031/player"));
-                    services.AddSingleton(new Uri("http://localhost:5032/player"));
-                    services.AddSingleton<ExperimentConditionService>();
-                    services.AddSingleton<ExperimentConditionContext>();
-                    services.AddSingleton(myConfig);
-                });
+                    "generate" => new MyConfig { ExperimentCount = 100, Request = DbRequest.Generate },
+                    "useGenerated" => new MyConfig { ExperimentCount = 100, Request = DbRequest.UseGenerated },
+                    _ => throw new ArgumentException($"bad cmd argument, available arguments are: generate, useGenerated")
+                };
+                return Host.CreateDefaultBuilder(args)
+                    .ConfigureServices((hostContext, services) =>
+                    {
+                        services.AddHostedService<DbExperimentWorker>();
+                        services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
+                        services.AddScoped<IExperiment, NoShuffleHttpExperiment>();
+                        services.AddSingleton(new Uri("http://localhost:5031/player"));
+                        services.AddSingleton(new Uri("http://localhost:5032/player"));
+                        services.AddSingleton<ExperimentConditionService>();
+                        services.AddSingleton<ExperimentConditionContext>();
+                        services.AddSingleton(myConfig);
+                    });
+            }
+            default:
+                throw new InvalidAmountOfArgumentsException($"wrong amount of arguments, expected 0 or 1 has {args.Length}");
         }
-
-        throw new InvalidAmountOfArgumentsException($"wrong amount of arguments, expected 0 or 1 has {args.Length}");
     }
 }

@@ -65,11 +65,7 @@ public class DbExperimentWorker : BackgroundService
             var decks = _service.GetN(_config.ExperimentCount);
             foreach (var deck in decks)
             {
-                var cardsList = new List<Card>();
-                foreach (Card card in deck)
-                {
-                    cardsList.Add(card);
-                }
+                var cardsList = deck.Cast<Card>().ToList();
 
                 if (_experiment.Do(new ShuffleableCardDeck(cardsList)))
                 {
@@ -116,7 +112,7 @@ public class DbExperimentWorker : BackgroundService
             }
             default:
             {
-                _logger.LogWarning("bad DbRequest in config provided, stopping application");
+                _logger.LogError("bad DbRequest in config provided, stopping application");
                 _lifetime.StopApplication();
                 return Task.CompletedTask;
             }
