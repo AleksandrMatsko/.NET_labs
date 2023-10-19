@@ -36,7 +36,7 @@ public class DbExperimentWorker : BackgroundService
     {
         try
         {
-            _service.ReCreateDb();
+            _service.RecreateDb();
             for (var i = 0; i < _config.ExperimentCount && !stoppingToken.IsCancellationRequested; i++)
             {
                 var deck = Shuffleable36CardDeck.CreateCardDeck();
@@ -63,9 +63,9 @@ public class DbExperimentWorker : BackgroundService
         try
         {
             var decks = _service.GetN(_config.ExperimentCount);
-            foreach (var deck in decks)
+            for (var i = 0; i < decks.Count && !stoppingToken.IsCancellationRequested; i++)
             {
-                var cardsList = deck.Cast<Card>().ToList();
+                var cardsList = decks[i].Cast<Card>().ToList();
 
                 if (_experiment.Do(new ShuffleableCardDeck(cardsList)))
                 {
@@ -74,7 +74,7 @@ public class DbExperimentWorker : BackgroundService
 
                 experimentsCompleted += 1;
             }
-
+            
             Console.WriteLine($"\nExperiments completed: {experimentsCompleted}");
             Console.WriteLine($"Success rate: {(double)success / experimentsCompleted}\n");
         }

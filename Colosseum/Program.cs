@@ -1,11 +1,11 @@
-﻿using CardLibrary;
-using CardLibrary.Abstractions;
+﻿using CardLibrary.Abstractions;
 using CardLibrary.Impl;
 using CardStorage;
 using Colosseum.Impl;
 using Colosseum.Abstractions;
 using Colosseum.Exceptions;
 using Colosseum.Workers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StrategyLibrary.Impl;
@@ -45,6 +45,10 @@ class Program
                     "useGenerated" => new MyConfig { ExperimentCount = 100, Request = DbRequest.UseGenerated },
                     _ => throw new ArgumentException($"bad cmd argument, available arguments are: generate, useGenerated")
                 };
+                var dbPath = Path.Join(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "cards.db");
+                Console.WriteLine($"db path is: {dbPath}");
                 return Host.CreateDefaultBuilder(args)
                     .ConfigureServices((hostContext, services) =>
                     {
@@ -54,7 +58,8 @@ class Program
                         services.AddSingleton(new Uri("http://localhost:5031/player"));
                         services.AddSingleton(new Uri("http://localhost:5032/player"));
                         services.AddSingleton<ExperimentConditionService>();
-                        services.AddSingleton<ExperimentConditionContext>();
+                        services.AddDbContextFactory<ExperimentConditionContext>(
+                            options => options.UseSqlite($"Data Source={dbPath}"));
                         services.AddSingleton(myConfig);
                     });
             }

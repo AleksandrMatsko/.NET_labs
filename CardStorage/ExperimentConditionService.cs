@@ -1,4 +1,5 @@
 ﻿using CardLibrary;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CardStorage;
@@ -8,14 +9,16 @@ public class ExperimentConditionService
     private readonly ExperimentConditionContext _experimentConditionContext;
     private readonly ILogger<ExperimentConditionService> _logger;
 
-    public ExperimentConditionService(ExperimentConditionContext experimentConditionContext, ILogger<ExperimentConditionService> logger)
+    public ExperimentConditionService(
+        IDbContextFactory<ExperimentConditionContext> contextFactory, 
+        ILogger<ExperimentConditionService> logger)
     {
-        _experimentConditionContext = experimentConditionContext;
+        _experimentConditionContext = contextFactory.CreateDbContext();
         _logger = logger;
         _experimentConditionContext.Database.EnsureCreated();
     }
 
-    public void ReCreateDb()
+    public void RecreateDb()
     {
         _experimentConditionContext.Database.EnsureDeleted();
         _experimentConditionContext.Database.EnsureCreated();
@@ -29,7 +32,8 @@ public class ExperimentConditionService
 
     public IList<CardDeck> GetN(int n)
     {
-        var conditions = _experimentConditionContext.Conditions.Take(n);
+        
+        var conditions = _experimentConditionContext.Conditions.OrderBy(c => c.Id).Take(n);
         var decks = new List<CardDeck>();
         if (!conditions.Any())
         {
