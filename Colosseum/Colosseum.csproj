@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CardStorage\CardStorage.csproj" />
       <ProjectReference Include="..\StrategyLibrary\StrategyLibrary.csproj" />
     </ItemGroup>
 

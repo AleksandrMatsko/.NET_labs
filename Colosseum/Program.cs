@@ -1,6 +1,7 @@
 ﻿using CardLibrary;
 using CardLibrary.Abstractions;
 using CardLibrary.Impl;
+using CardStorage;
 using Colosseum.Impl;
 using Colosseum.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,7 @@ class Program
                 services.AddSingleton(new Uri("http://localhost:5031/player"));
                 services.AddSingleton(new Uri("http://localhost:5032/player"));
                 services.AddSingleton<ShuffleableCardDeck>(Shuffleable36CardDeck.CreateCardDeck());
+                services.AddSingleton<CardsContext>();
             });
     }
 }

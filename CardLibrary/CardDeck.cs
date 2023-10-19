@@ -1,6 +1,8 @@
-﻿namespace CardLibrary;
+﻿using System.Collections;
 
-public class CardDeck
+namespace CardLibrary;
+
+public class CardDeck : IEnumerable
 {
     protected readonly Card[] Cards;
     
@@ -16,6 +18,11 @@ public class CardDeck
     public CardDeck(IList<Card> cards)
     {
         Cards = cards.ToArray();
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        return Cards.GetEnumerator();
     }
 }
 
