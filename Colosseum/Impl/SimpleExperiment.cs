@@ -11,10 +11,8 @@ public class SimpleExperiment : IExperiment
     private readonly AbstractPlayer _firstPlayer;
     private readonly AbstractPlayer _secondPlayer;
     private readonly IDeckShuffler _deckShuffler;
-    private readonly ShuffleableCardDeck _cardDeck;
 
     public SimpleExperiment(
-        ShuffleableCardDeck cardDeck,
         IDeckShuffler deckShuffler, 
         ILogger<SimpleExperiment> logger, 
         IEnumerable<AbstractPlayer> players)
@@ -26,17 +24,16 @@ public class SimpleExperiment : IExperiment
         }
         _firstPlayer = enumerable[0];
         _secondPlayer = enumerable[1];
-        _cardDeck = cardDeck;
         _deckShuffler = deckShuffler;
 
         logger.LogInformation($"Experiment participants: {_firstPlayer.Name} and {_secondPlayer.Name}");
     }
     
-    public bool Do()
+    public bool Do(ShuffleableCardDeck cardDeck)
     {
-        _deckShuffler.Shuffle(_cardDeck);
+        _deckShuffler.Shuffle(cardDeck);
         
-        _cardDeck.Split(out var firstDeck, out var secondDeck);
+        cardDeck.Split(out var firstDeck, out var secondDeck);
         
         var firstChoice = _firstPlayer.Choose(firstDeck);
         var secondChoice = _secondPlayer.Choose(secondDeck);

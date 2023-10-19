@@ -51,12 +51,11 @@ public class SimpleExperimentTests
     {
         var lf = new LoggerFactory();
         var experiment = new SimpleExperiment(
-            _deckMock.Object, 
             _shufflerMock.Object,
             lf.CreateLogger<SimpleExperiment>(),
             new[]{_elonMock.Object, _markMock.Object});
         
-        var result = experiment.Do();
+        var result = experiment.Do(_deckMock.Object);
         
         Assert.DoesNotThrow(() =>
         {
@@ -69,12 +68,11 @@ public class SimpleExperimentTests
     {
         var lf = new LoggerFactory();
         var experiment = new SimpleExperiment(
-            _deckMock.Object,
             _shufflerMock.Object,
             lf.CreateLogger<SimpleExperiment>(),
             new[] { _elonMock.Object, _markMock.Object });
 
-        var result = experiment.Do();
+        var result = experiment.Do(_deckMock.Object);
 
         Assert.DoesNotThrow(() =>
         {
@@ -87,12 +85,11 @@ public class SimpleExperimentTests
     {
         var lf = new LoggerFactory();
         var experiment = new SimpleExperiment(
-            _deckMock.Object, 
             _shufflerMock.Object,
             lf.CreateLogger<SimpleExperiment>(),
             new[]{_elonMock.Object, _markMock.Object});
         
-        var result = experiment.Do();
+        var result = experiment.Do(_deckMock.Object);
         
         Assert.DoesNotThrow(() =>
         {
@@ -106,12 +103,11 @@ public class SimpleExperimentTests
     {
         var lf = new LoggerFactory();
         var experiment = new SimpleExperiment(
-            _deckMock.Object, 
             _shufflerMock.Object,
             lf.CreateLogger<SimpleExperiment>(),
             new[]{_elonMock.Object, _markMock.Object});
         
-        var result = experiment.Do();
+        var result = experiment.Do(_deckMock.Object);
         
         Assert.That(result, Is.EqualTo(_firstAfterSplit[0].Color == _secondAfterSplit[0].Color));
     }

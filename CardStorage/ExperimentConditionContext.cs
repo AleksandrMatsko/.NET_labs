@@ -3,14 +3,14 @@ using Microsoft.Extensions.Logging;
 
 namespace CardStorage;
 
-public class CardsContext : DbContext
+public class ExperimentConditionContext : DbContext
 {
     public DbSet<ExperimentCondition> Conditions { get; set; }
     public string DbPath { get; }
 
-    private readonly ILogger<CardsContext> _logger;
+    private readonly ILogger<ExperimentConditionContext> _logger;
 
-    public CardsContext(ILogger<CardsContext> logger)
+    public ExperimentConditionContext(ILogger<ExperimentConditionContext> logger)
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);

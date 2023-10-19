@@ -19,3 +19,8 @@ public class UnexpectedHttpStatusCodeException : Exception
 {
     public UnexpectedHttpStatusCodeException(string message) : base(message) {}
 }
+
+public class InvalidAmountOfArgumentsException : Exception
+{
+    public InvalidAmountOfArgumentsException(string message) : base(message) {}
+}

@@ -16,13 +16,11 @@ public class HttpExperiment : IExperiment
     private readonly HttpPlayerAsker _firstAsker;
     private readonly HttpPlayerAsker _secondAsker;
     private readonly IDeckShuffler _deckShuffler;
-    private readonly ShuffleableCardDeck _cardDeck;
 
     public HttpExperiment(
         ILogger<HttpExperiment> logger, 
         IEnumerable<Uri> uris, 
-        IDeckShuffler deckShuffler, 
-        ShuffleableCardDeck cardDeck)
+        IDeckShuffler deckShuffler)
     {
         _logger = logger;
         var urisArr = uris as Uri[] ?? uris.ToArray();
@@ -35,14 +33,13 @@ public class HttpExperiment : IExperiment
         _firstAsker = new HttpPlayerAsker(urisArr[0], new Logger<HttpPlayerAsker>(lf));
         _secondAsker = new HttpPlayerAsker(urisArr[1], new Logger<HttpPlayerAsker>(lf));
         _deckShuffler = deckShuffler;
-        _cardDeck = cardDeck;
     }
     
-    public bool Do()
+    public bool Do(ShuffleableCardDeck cardDeck)
     {
-        _deckShuffler.Shuffle(_cardDeck);
+        _deckShuffler.Shuffle(cardDeck);
         
-        _cardDeck.Split(out var firstDeck, out var secondDeck);
+        cardDeck.Split(out var firstDeck, out var secondDeck);
 
         var t1 = _firstAsker.Ask(firstDeck);
         var t2 = _secondAsker.Ask(secondDeck);
