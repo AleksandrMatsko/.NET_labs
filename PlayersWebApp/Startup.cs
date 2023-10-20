@@ -1,4 +1,6 @@
 ﻿using Colosseum.Abstractions;
+using Colosseum.Impl;
+using StrategyLibrary.Impl;
 
 namespace PlayersWebApp;
 
@@ -6,9 +8,21 @@ public class Startup
 {
     private readonly AbstractPlayer _player;
 
-    public Startup(AbstractPlayer player)
+    public Startup(string playerName)
     {
-        _player = player;
+        switch (playerName)
+        {
+            case "Elon":
+            {
+                _player = new ElonMask(new PickLastCardStrategy());
+                break;
+            }
+            case "Mark": {
+                _player = new MarkZuckerberg(new PickLastCardStrategy());
+                break;
+            }
+            default: throw new ArgumentException("bad player name");
+        }
     }
     
     
@@ -23,6 +37,12 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        if (env.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+        
         app.UseRouting();
         app.UseEndpoints(endpoint =>
         {

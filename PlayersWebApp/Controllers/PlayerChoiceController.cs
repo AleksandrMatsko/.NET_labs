@@ -21,14 +21,15 @@ public class PlayerChoiceController : ControllerBase
     }
     
     [HttpPost(Name = "choose")]
-    public PlayerChoice Choose()
+    public PlayerChoice Choose([FromBody] IList<CardFromClientDto> dtos)
     {
-        var request = HttpContext.Request;
+        /*var request = HttpContext.Request;
         using var reader = new StreamReader(request.Body);
-        var data = reader.ReadToEndAsync();
-        var deck = CardDeckValidator.ValidateAndReturn(data.Result, out var messages);
+        var data = reader.ReadToEndAsync();*/
+        var deck = CardDeckValidator.ValidateAndReturn(dtos/*data.Result, out var messages*/);
 
-        if (deck == null)
+        return new PlayerChoice { Name = _player.Name, CardNumber = _player.Choose(deck) };
+        /*if (deck == null)
         {
             _logger.LogWarning($"response code: {HttpStatusCode.BadRequest}");
             HttpContext.Response.StatusCode = 400;
@@ -45,7 +46,7 @@ public class PlayerChoiceController : ControllerBase
         {
             Name = _player.Name,
             CardNumber = _player.Choose(deck)
-        };
+        };*/
     }
 }
 
