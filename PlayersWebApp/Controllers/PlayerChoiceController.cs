@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using CardLibrary;
 using Colosseum.Abstractions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PlayersWebApp.Validators;
 
@@ -20,15 +21,22 @@ public class PlayerChoiceController : ControllerBase
         _logger = logger;
     }
     
+    [ProducesResponseType(typeof(PlayerChoice), 200)]
+    [ProducesResponseType(typeof(PlayerChoice), 400)]
     [HttpPost(Name = "choose")]
-    public PlayerChoice Choose([FromBody] IList<CardFromClientDto> dtos)
+    public IActionResult Choose([FromBody] IList<CardFromClientDto> dtos)
     {
         /*var request = HttpContext.Request;
         using var reader = new StreamReader(request.Body);
         var data = reader.ReadToEndAsync();*/
         var deck = CardDeckValidator.ValidateAndReturn(dtos/*data.Result, out var messages*/);
+        if (deck.Length != CardDeckValidator.CardsCount)
+        {
+            return BadRequest(new PlayerChoice
+                { Name = _player.Name, CardNumber = -1, Errors = new[] { "bad deck length" } });
+        }
 
-        return new PlayerChoice { Name = _player.Name, CardNumber = _player.Choose(deck) };
+        return Ok(new PlayerChoice { Name = _player.Name, CardNumber = _player.Choose(deck) });
         /*if (deck == null)
         {
             _logger.LogWarning($"response code: {HttpStatusCode.BadRequest}");

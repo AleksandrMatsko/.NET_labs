@@ -6,7 +6,7 @@ namespace PlayersWebApp.Validators;
 public class CardDeckValidator
 {
     //private static JSchema? _jSchema;
-    private static readonly int CardsCount = 18;
+    public static int CardsCount { get; } = 18;
     
     public static CardDeck ValidateAndReturn(IList<CardFromClientDto> dtos/*, out IList<string>? errMessages*/)
     {
