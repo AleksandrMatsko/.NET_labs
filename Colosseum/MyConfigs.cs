@@ -12,3 +12,8 @@ public enum DbRequest
     Generate,
     UseGenerated
 }
+
+public class ExperimentConfig
+{
+    public IList<Uri> Uris { get; init; }
+}

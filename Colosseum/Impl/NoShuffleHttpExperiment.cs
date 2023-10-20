@@ -1,5 +1,6 @@
 ﻿using CardLibrary;
 using Colosseum.Abstractions;
+using Colosseum.Client;
 using Colosseum.Exceptions;
 using Microsoft.Extensions.Logging;
 
@@ -13,18 +14,17 @@ public class NoShuffleHttpExperiment : IExperiment
 
     public NoShuffleHttpExperiment(
         ILogger<NoShuffleHttpExperiment> logger, 
-        IEnumerable<Uri> uris)
+        ExperimentConfig config)
     {
         _logger = logger;
-        var urisArr = uris as Uri[] ?? uris.ToArray();
-        if (urisArr.Length < 2)
+        if (config.Uris.Count < 2)
         {
-            throw new NotEnoughPlayersException($"expected 2 players, have {urisArr.Length}");
+            throw new NotEnoughPlayersException($"expected 2 player's uris, have {config.Uris.Count}");
         }
 
         var lf = new LoggerFactory();
-        _firstAsker = new HttpPlayerAsker(urisArr[0], new Logger<HttpPlayerAsker>(lf));
-        _secondAsker = new HttpPlayerAsker(urisArr[1], new Logger<HttpPlayerAsker>(lf));
+        _firstAsker = new HttpPlayerAsker(config.Uris[0], new Logger<HttpPlayerAsker>(lf));
+        _secondAsker = new HttpPlayerAsker(config.Uris[1], new Logger<HttpPlayerAsker>(lf));
     }
     
     public bool Do(ShuffleableCardDeck cardDeck)

@@ -6,6 +6,7 @@ using Colosseum.Abstractions;
 using Colosseum.Exceptions;
 using Colosseum.Workers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StrategyLibrary.Impl;
@@ -23,9 +24,9 @@ class Program
     {
         switch (args.Length)
         {
-            case 0:
+            case 1:
             {
-                var myConfig = new MyConfig {ExperimentCount = 1_000_000, Request = DbRequest.None};
+                var myConfig = new MyConfig {ExperimentCount = int.Parse(args[0]), Request = DbRequest.None};
                 return Host.CreateDefaultBuilder(args)
                     .ConfigureServices((hostContext, services) =>
                     {
@@ -37,34 +38,35 @@ class Program
                         services.AddSingleton(myConfig);
                     });
             }
-            case 1:
+            case 2:
             {
                 var myConfig = args[0] switch
                 {
-                    "generate" => new MyConfig { ExperimentCount = 100, Request = DbRequest.Generate },
-                    "useGenerated" => new MyConfig { ExperimentCount = 100, Request = DbRequest.UseGenerated },
+                    "generate" => new MyConfig { ExperimentCount = int.Parse(args[1]), Request = DbRequest.Generate },
+                    "useGenerated" => new MyConfig { ExperimentCount = int.Parse(args[1]), Request = DbRequest.UseGenerated },
                     _ => throw new ArgumentException($"bad cmd argument, available arguments are: generate, useGenerated")
                 };
-                var dbPath = Path.Join(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "cards.db");
-                Console.WriteLine($"db path is: {dbPath}");
                 return Host.CreateDefaultBuilder(args)
                     .ConfigureServices((hostContext, services) =>
                     {
+                        Console.WriteLine($"db path is: {hostContext.Configuration.GetConnectionString("ExperimentDatabase")}");
+                        var uris = new List<Uri>();
+                        uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player1")!));
+                        uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player2")!));
+                        var expConfig = new ExperimentConfig {Uris = uris};
                         services.AddHostedService<DbExperimentWorker>();
                         services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
                         services.AddScoped<IExperiment, NoShuffleHttpExperiment>();
-                        services.AddSingleton(new Uri("http://localhost:5031/player"));
-                        services.AddSingleton(new Uri("http://localhost:5032/player"));
                         services.AddSingleton<ExperimentConditionService>();
                         services.AddDbContextFactory<ExperimentConditionContext>(
-                            options => options.UseSqlite($"Data Source={dbPath}"));
+                            options => options.UseSqlite(
+                                hostContext.Configuration.GetConnectionString("ExperimentDatabase")));
                         services.AddSingleton(myConfig);
+                        services.AddSingleton(expConfig);
                     });
             }
             default:
-                throw new InvalidAmountOfArgumentsException($"wrong amount of arguments, expected 0 or 1 has {args.Length}");
+                throw new InvalidAmountOfArgumentsException($"wrong amount of arguments, expected 1 or 2 has {args.Length}");
         }
     }
 }

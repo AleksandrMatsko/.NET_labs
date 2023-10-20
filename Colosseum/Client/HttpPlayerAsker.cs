@@ -3,53 +3,10 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CardLibrary;
-using CardLibrary.Abstractions;
-using Colosseum.Abstractions;
 using Colosseum.Exceptions;
 using Microsoft.Extensions.Logging;
 
-namespace Colosseum.Impl;
-
-public class HttpExperiment : IExperiment
-{
-    private readonly ILogger<HttpExperiment> _logger;
-    private readonly HttpPlayerAsker _firstAsker;
-    private readonly HttpPlayerAsker _secondAsker;
-    private readonly IDeckShuffler _deckShuffler;
-
-    public HttpExperiment(
-        ILogger<HttpExperiment> logger, 
-        IEnumerable<Uri> uris, 
-        IDeckShuffler deckShuffler)
-    {
-        _logger = logger;
-        var urisArr = uris as Uri[] ?? uris.ToArray();
-        if (urisArr.Length < 2)
-        {
-            throw new NotEnoughPlayersException($"expected 2 players, have {urisArr.Length}");
-        }
-
-        var lf = new LoggerFactory();
-        _firstAsker = new HttpPlayerAsker(urisArr[0], new Logger<HttpPlayerAsker>(lf));
-        _secondAsker = new HttpPlayerAsker(urisArr[1], new Logger<HttpPlayerAsker>(lf));
-        _deckShuffler = deckShuffler;
-    }
-    
-    public bool Do(ShuffleableCardDeck cardDeck)
-    {
-        _deckShuffler.Shuffle(cardDeck);
-        
-        cardDeck.Split(out var firstDeck, out var secondDeck);
-
-        var t1 = _firstAsker.Ask(firstDeck);
-        var t2 = _secondAsker.Ask(secondDeck);
-
-        Task.WaitAll(t1, t2);
-        
-        _logger.LogInformation($"Experiment participants: {t1.Result.Name} -> {t1.Result.CardNumber} and {t2.Result.Name} -> {t2.Result.CardNumber}");
-        return firstDeck[t2.Result.CardNumber].Color == secondDeck[t1.Result.CardNumber].Color;
-    }
-}
+namespace Colosseum.Client;
 
 public class HttpPlayerAsker
 {
