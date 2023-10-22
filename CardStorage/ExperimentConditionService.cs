@@ -30,9 +30,8 @@ public class ExperimentConditionService
         _experimentConditionContext.SaveChanges();
     }
 
-    public IList<CardDeck> GetN(int n)
+    public IList<CardDeck> GetFirstN(int n)
     {
-        
         var conditions = _experimentConditionContext.Conditions.OrderBy(c => c.Id).Take(n);
         var decks = new List<CardDeck>();
         if (!conditions.Any())

@@ -62,7 +62,7 @@ public class DbExperimentWorker : BackgroundService
         var experimentsCompleted = 0;
         try
         {
-            var decks = _service.GetN(_config.ExperimentCount);
+            var decks = _service.GetFirstN(_config.ExperimentCount);
             for (var i = 0; i < decks.Count && !stoppingToken.IsCancellationRequested; i++)
             {
                 var cardsList = decks[i].Cast<Card>().ToList();
