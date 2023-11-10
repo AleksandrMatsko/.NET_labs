@@ -1,5 +1,6 @@
 ﻿using Colosseum.Abstractions;
 using Colosseum.Impl;
+using PlayersWebApp.Middleware;
 using StrategyLibrary.Impl;
 
 namespace PlayersWebApp;
@@ -37,6 +38,8 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseMyExceptionMiddleware();
+        
         if (env.IsDevelopment())
         {
             app.UseSwagger();
