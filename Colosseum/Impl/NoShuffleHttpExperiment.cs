@@ -32,8 +32,6 @@ public class NoShuffleHttpExperiment : IExperiment
 
         var t1 = _firstAsker.Ask(ConvertDeck(firstDeck));
         var t2 = _secondAsker.Ask(ConvertDeck(secondDeck));
-
-        Task.WaitAll(t1, t2);
         
         _logger.LogInformation($"Experiment participants: {t1.Result.Name} -> {t1.Result.CardNumber} and {t2.Result.Name} -> {t2.Result.CardNumber}");
         return firstDeck[t2.Result.CardNumber].Color == secondDeck[t1.Result.CardNumber].Color;

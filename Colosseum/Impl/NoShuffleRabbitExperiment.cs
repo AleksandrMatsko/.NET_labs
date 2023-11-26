@@ -15,6 +15,8 @@ public class NoShuffleRabbitExperiment : IExperiment
     private readonly ILogger<NoShuffleRabbitExperiment> _logger;
     private readonly HttpPlayerAsker<AskForExperimentDto, ColorResponse> _firstAsker;
     private readonly HttpPlayerAsker<AskForExperimentDto, ColorResponse> _secondAsker;
+    private readonly Uri _firstMqUri;
+    private readonly Uri _secondMqUri;
 
     public NoShuffleRabbitExperiment(
         ILogger<NoShuffleRabbitExperiment> logger,
@@ -23,13 +25,15 @@ public class NoShuffleRabbitExperiment : IExperiment
     {
         _producer = producer;
         _logger = logger;
-        if (config.Uris.Count < 2)
+        if (config.Uris.Count != 4)
         {
             throw new NotEnoughPlayersException($"expected 2 player's uris, have {config.Uris.Count}");
         }
 
         _firstAsker = new HttpPlayerAsker<AskForExperimentDto, ColorResponse>(config.Uris[0]);
         _secondAsker = new HttpPlayerAsker<AskForExperimentDto, ColorResponse>(config.Uris[1]);
+        _firstMqUri = config.Uris[2];
+        _secondMqUri = config.Uris[3];
     }
     
     
@@ -37,12 +41,11 @@ public class NoShuffleRabbitExperiment : IExperiment
     {
         deck.Split(out var first, out var second);
         var id = NewId.NextGuid();
-        var mqT1 = _producer.SendDeck(id, first, new Uri("queue:Elon.SharedTransitLibrary.TellCardIndex"));
-        var mqT2 = _producer.SendDeck(id, second, new Uri("queue:Mark.SharedTransitLibrary.TellCardIndex"));
+        var mqT1 = _producer.SendDeck(id, first, _firstMqUri);
+        var mqT2 = _producer.SendDeck(id, second, _secondMqUri);
         Task.WaitAll(mqT1, mqT2);
         var httpT1 = _firstAsker.Ask(new AskForExperimentDto { ExperimentId = id });
         var httpT2 = _secondAsker.Ask(new AskForExperimentDto { ExperimentId = id });
-        Task.WaitAll(httpT1, httpT2);
         _logger.LogInformation($"Experiment participants {httpT1.Result.Name} and {httpT2.Result.Name}");
         return httpT1.Result.Color == httpT2.Result.Color;
     }
