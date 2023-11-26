@@ -9,8 +9,8 @@ namespace Colosseum.Impl;
 public class NoShuffleHttpExperiment : IExperiment
 {
     private readonly ILogger<NoShuffleHttpExperiment> _logger;
-    private readonly HttpPlayerAsker _firstAsker;
-    private readonly HttpPlayerAsker _secondAsker;
+    private readonly HttpPlayerAsker<IEnumerable<CardDto>, CardChoiceDto> _firstAsker;
+    private readonly HttpPlayerAsker<IEnumerable<CardDto>, CardChoiceDto> _secondAsker;
 
     public NoShuffleHttpExperiment(
         ILogger<NoShuffleHttpExperiment> logger, 
@@ -21,22 +21,31 @@ public class NoShuffleHttpExperiment : IExperiment
         {
             throw new NotEnoughPlayersException($"expected 2 player's uris, have {config.Uris.Count}");
         }
-
-        var lf = new LoggerFactory();
-        _firstAsker = new HttpPlayerAsker(config.Uris[0], new Logger<HttpPlayerAsker>(lf));
-        _secondAsker = new HttpPlayerAsker(config.Uris[1], new Logger<HttpPlayerAsker>(lf));
+        
+        _firstAsker = new HttpPlayerAsker<IEnumerable<CardDto>, CardChoiceDto>(config.Uris[0]);
+        _secondAsker = new HttpPlayerAsker<IEnumerable<CardDto>, CardChoiceDto>(config.Uris[1]);
     }
     
     public bool Do(ShuffleableCardDeck cardDeck)
     {
         cardDeck.Split(out var firstDeck, out var secondDeck);
 
-        var t1 = _firstAsker.Ask(firstDeck);
-        var t2 = _secondAsker.Ask(secondDeck);
+        var t1 = _firstAsker.Ask(ConvertDeck(firstDeck));
+        var t2 = _secondAsker.Ask(ConvertDeck(secondDeck));
 
         Task.WaitAll(t1, t2);
         
         _logger.LogInformation($"Experiment participants: {t1.Result.Name} -> {t1.Result.CardNumber} and {t2.Result.Name} -> {t2.Result.CardNumber}");
         return firstDeck[t2.Result.CardNumber].Color == secondDeck[t1.Result.CardNumber].Color;
+    }
+    
+    private static IEnumerable<CardDto> ConvertDeck(CardDeck deck)
+    {
+        var dtos = new CardDto[deck.Length];
+        for (var i = 0; i < deck.Length; i++)
+        {
+            dtos[i] = new CardDto(deck[i]);
+        }
+        return dtos;
     }
 }

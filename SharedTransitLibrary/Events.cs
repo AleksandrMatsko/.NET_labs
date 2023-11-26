@@ -2,7 +2,7 @@
 
 public class CardIndexTold
 {
-    public Guid RequestId { get; set; }
+    public Guid ExperimentId { get; set; }
     public int Index { get; set; }
     public string Name { get; set; }
 }

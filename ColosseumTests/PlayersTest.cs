@@ -2,6 +2,7 @@
 using Colosseum.Impl;
 using ColosseumTests.DeckTests;
 using Moq;
+using PlayerLibrary;
 using StrategyLibrary.Interfaces;
 
 namespace ColosseumTests;

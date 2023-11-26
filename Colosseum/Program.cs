@@ -57,8 +57,8 @@ class Program
                             {
                                 Console.WriteLine($"db path is: {hostContext.Configuration.GetConnectionString("ExperimentDatabase")}");
                                 var uris = new List<Uri>();
-                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player1")!));
-                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player2")!));
+                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player1")!+"/choose"));
+                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player2")!+"/choose"));
                                 var expConfig = new ExperimentConfig {Uris = uris};
                                 services.AddHostedService<DbExperimentWorker>();
                                 services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
@@ -77,8 +77,8 @@ class Program
                             {
                                 Console.WriteLine($"db path is: {hostContext.Configuration.GetConnectionString("ExperimentDatabase")}");
                                 var uris = new List<Uri>();
-                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player1")!));
-                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player2")!));
+                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player1")!+"/color"));
+                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player2")!+"/color"));
                                 var expConfig = new ExperimentConfig {Uris = uris};
                                 services.AddHostedService<DbExperimentWorker>();
                                 services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();

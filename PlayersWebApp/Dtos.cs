@@ -34,3 +34,21 @@ public class ErrorDto
 {
     public string ErrType { get; set; }
 }
+
+public class AskForColorDto 
+{
+    [JsonPropertyName("ExperimentId")]
+    [JsonRequired]
+    public Guid ExperimentId { get; set; }
+}
+
+public class PlayerColor
+{
+    [JsonPropertyName("Name")]
+    [JsonRequired]
+    public string Name { get; set; }
+    
+    [JsonPropertyName("Color")]
+    [JsonRequired]
+    public CardColor Color { get; set; }
+}

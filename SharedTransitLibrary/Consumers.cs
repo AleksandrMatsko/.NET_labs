@@ -8,24 +8,27 @@ public class TellCardIndexConsumer : IConsumer<TellCardIndexToPartner>
 {
     private readonly AbstractPlayer _player;
     private readonly ILogger<TellCardIndexConsumer> _logger;
+    private readonly ITellCardIndexStorage _storage;
 
     public TellCardIndexConsumer(
         ILogger<TellCardIndexConsumer> logger, 
-        AbstractPlayer player)
+        AbstractPlayer player, ITellCardIndexStorage storage)
     {
         _logger = logger;
         _player = player;
+        _storage = storage;
     }
 
     public async Task Consume(ConsumeContext<TellCardIndexToPartner> context)
     {
         _logger.LogInformation(
-            $"TellCardIndexConsumer consumed message with RequestId: {context.Message.RequestId}");
+            $"TellCardIndexConsumer consumed message with ExperimentId: {context.Message.ExperimentId}");
         var deck = context.Message.ToCardDeck();
         var indx = _player.Choose(deck);
+        _storage.AddExperiment(context.Message.ExperimentId, deck);
         await context.Publish(new CardIndexTold
         {
-            RequestId = context.Message.RequestId, 
+            ExperimentId = context.Message.ExperimentId, 
             Index = indx,
             Name = _player.Name
         }, context.CancellationToken);
@@ -35,23 +38,19 @@ public class TellCardIndexConsumer : IConsumer<TellCardIndexToPartner>
 public class CardIndexToldConsumer : IConsumer<CardIndexTold>
 {
     private readonly ILogger<TellCardIndexConsumer> _logger;
-    private readonly AbstractPlayer _player;
+    private readonly ICardIndexToldHandler _handler;
 
-
-    public CardIndexToldConsumer(ILogger<TellCardIndexConsumer> logger, AbstractPlayer player)
+    public CardIndexToldConsumer(ILogger<TellCardIndexConsumer> logger, ICardIndexToldHandler handler)
     {
         _logger = logger;
-        _player = player;
+        _handler = handler;
     }
 
     public Task Consume(ConsumeContext<CardIndexTold> context)
     {
-        if (context.Message.Name == _player.Name)
-        {
-            return Task.CompletedTask;
-        }
         _logger.LogInformation(
-            $"CardIndexToldConsumer consumed message with RequestId: {context.Message.RequestId}, Index: {context.Message.Index} from {context.Message.Name}");
+            $"CardIndexToldConsumer consumed message with ExperimentId: {context.Message.ExperimentId}, Index: {context.Message.Index} from {context.Message.Name}");
+        _handler.Handle(context.Message);
         return Task.CompletedTask;
     }
 }

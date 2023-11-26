@@ -8,48 +8,32 @@ using Microsoft.Extensions.Logging;
 
 namespace Colosseum.Client;
 
-public class HttpPlayerAsker
+public class HttpPlayerAsker<TReq, TResp>
 {
     private readonly Uri _uri;
-    private readonly ILogger<HttpPlayerAsker> _logger;
 
-    public HttpPlayerAsker(Uri uri, ILogger<HttpPlayerAsker> logger)
+    public HttpPlayerAsker(Uri uri)
     {
         _uri = uri;
-        _logger = logger;
     }
     
-    public async Task<CardChoiceDto> Ask(CardDeck deck)
+    public async Task<TResp> Ask(TReq data)
     {
         var httpClient = new HttpClient();
-        var postContent = JsonContent.Create(ConvertDeck(deck));
+        var postContent = JsonContent.Create(data);
         var response = await httpClient.PostAsync(_uri, postContent);
         var stream = await response.Content.ReadAsStreamAsync();
-        var result = await JsonSerializer.DeserializeAsync<CardChoiceDto>(stream) ?? throw new InvalidOperationException();
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
             {
-                return result;
+                break;
             }
-            case HttpStatusCode.BadRequest:
-                throw new BadRequestException($"incorrect request, errors: {string.Join(", ", result.Errors)}");
-            case HttpStatusCode.InternalServerError:
-                throw new ServerErrorException("server error");
             default:
                 throw new UnexpectedHttpStatusCodeException($"unexpected status code {response.StatusCode}");
         }
-        
-    }
-    
-    private static IEnumerable<CardDto> ConvertDeck(CardDeck deck)
-    {
-        var dtos = new CardDto[deck.Length];
-        for (var i = 0; i < deck.Length; i++)
-        {
-            dtos[i] = new CardDto(deck[i]);
-        }
-        return dtos;
+        var result = await JsonSerializer.DeserializeAsync<TResp>(stream) ?? throw new InvalidOperationException();
+        return result;
     }
 }
 
@@ -62,9 +46,6 @@ public class CardChoiceDto
     [JsonPropertyName("cardNumber")]
     [JsonRequired]
     public int CardNumber { get; set; }
-
-    [JsonPropertyName("errors")]
-    public IEnumerable<string> Errors { get; set; }
 }
 
 public class CardDto

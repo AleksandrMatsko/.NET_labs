@@ -6,7 +6,7 @@ using PlayersWebApp.Validators;
 namespace PlayersWebApp.Controllers;
 
 [ApiController]
-[Route("player")]
+[Route("player/choose")]
 public class PlayerChoiceController : ControllerBase
 {
     private readonly AbstractPlayer _player;

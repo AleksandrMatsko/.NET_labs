@@ -14,6 +14,20 @@ public class BadDeckLength : ClientException
     public BadDeckLength(string message) : base(message) {}
 }
 
+public class ExperimentNotFoundException : ClientException
+{
+    public ExperimentNotFoundException() {}
+
+    public ExperimentNotFoundException(string message) : base(message) {}
+}
+
+public class InvalidIndexFromPartnerException : ClientException
+{
+    public InvalidIndexFromPartnerException() {}
+
+    public InvalidIndexFromPartnerException(string message) : base(message) {}
+}
+
 public class ServerException : Exception
 {
     public ServerException() {}

@@ -4,7 +4,7 @@ namespace SharedTransitLibrary;
 
 public class TellCardIndexToPartner
 {
-    public Guid RequestId { get; set; }
+    public Guid ExperimentId { get; set; }
     public IList<TransitCardDto> CardDtos { get; set; }
 
     public CardDeck ToCardDeck()

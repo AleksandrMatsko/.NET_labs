@@ -73,6 +73,7 @@ public class DbExperimentWorker : BackgroundService
                 }
 
                 experimentsCompleted += 1;
+                _logger.LogInformation($"experiments completed = {experimentsCompleted}");
             }
             
             Console.WriteLine($"\nExperiments completed: {experimentsCompleted}");

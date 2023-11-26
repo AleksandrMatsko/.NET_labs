@@ -1,7 +1,7 @@
 ﻿using MassTransit;
-using MassTransit.Transports;
 using PlayerLibrary;
 using PlayersWebApp.Middleware;
+using PlayersWebApp.RabbitMQ;
 using SharedTransitLibrary;
 using StrategyLibrary.Impl;
 
@@ -47,7 +47,6 @@ public class Startup
                     h.Username("rmuser");
                     h.Password("rmpassword");
                 });
-                //conf.ConfigureEndpoints(context);
                 conf.ReceiveEndpoint("SharedTransitLibrary:CardIndexTold", e =>
                 {
                     e.ConfigureConsumer<CardIndexToldConsumer>(context);
@@ -73,6 +72,9 @@ public class Startup
                     }    
                 }
             });
+            services.AddSingleton<CardIndexToldService>();
+            services.AddSingleton<ICardIndexToldHandler, CardIndexToldHandler>();
+            services.AddSingleton<ITellCardIndexStorage, TellCardIndexStorage>();
         });
         Console.WriteLine($"{_player.Name}: services configured");
     }

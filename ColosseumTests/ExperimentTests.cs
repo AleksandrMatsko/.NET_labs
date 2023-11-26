@@ -4,6 +4,7 @@ using Colosseum.Abstractions;
 using Colosseum.Impl;
 using Microsoft.Extensions.Logging;
 using Moq;
+using PlayerLibrary;
 using StrategyLibrary.Impl;
 
 namespace ColosseumTests;
