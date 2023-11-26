@@ -1,5 +1,6 @@
 ﻿using Colosseum.Abstractions;
 using Microsoft.AspNetCore.Mvc;
+using PlayerLibrary;
 using PlayersWebApp.Validators;
 
 namespace PlayersWebApp.Controllers;

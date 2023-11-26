@@ -1,6 +1,8 @@
-﻿using Colosseum.Abstractions;
-using Colosseum.Impl;
+﻿using MassTransit;
+using MassTransit.Transports;
+using PlayerLibrary;
 using PlayersWebApp.Middleware;
+using SharedTransitLibrary;
 using StrategyLibrary.Impl;
 
 namespace PlayersWebApp;
@@ -33,6 +35,45 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddSingleton(_player);
+        services.AddMassTransit(x =>
+        {
+            x.AddConsumer<TellCardIndexConsumer>();
+            x.AddConsumer<CardIndexToldConsumer>();
+            
+            x.UsingRabbitMq((context, conf) =>
+            {
+                conf.Host("localhost", "/", h =>
+                {
+                    h.Username("rmuser");
+                    h.Password("rmpassword");
+                });
+                //conf.ConfigureEndpoints(context);
+                conf.ReceiveEndpoint("SharedTransitLibrary:CardIndexTold", e =>
+                {
+                    e.ConfigureConsumer<CardIndexToldConsumer>(context);
+                });
+
+                switch (_player.Name)
+                {
+                    case "Elon Mask":
+                    {
+                        conf.ReceiveEndpoint("Elon.SharedTransitLibrary.TellCardIndex", e =>
+                        {
+                            e.ConfigureConsumer<TellCardIndexConsumer>(context);
+                        });
+                        break;
+                    }
+                    case "Mark Zuckerberg":
+                    {
+                        conf.ReceiveEndpoint("Mark.SharedTransitLibrary.TellCardIndex", e =>
+                        {
+                            e.ConfigureConsumer<TellCardIndexConsumer>(context);
+                        });
+                        break;
+                    }    
+                }
+            });
+        });
         Console.WriteLine($"{_player.Name}: services configured");
     }
 

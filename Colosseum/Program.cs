@@ -5,10 +5,13 @@ using Colosseum.Impl;
 using Colosseum.Abstractions;
 using Colosseum.Exceptions;
 using Colosseum.Workers;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PlayerLibrary;
+using SharedTransitLibrary;
 using StrategyLibrary.Impl;
 
 namespace Colosseum;
@@ -38,7 +41,7 @@ class Program
                         services.AddSingleton(myConfig);
                     });
             }
-            case 2:
+            case 3:
             {
                 var myConfig = args[0] switch
                 {
@@ -46,27 +49,66 @@ class Program
                     "useGenerated" => new MyConfig { ExperimentCount = int.Parse(args[1]), Request = DbRequest.UseGenerated },
                     _ => throw new ArgumentException($"bad cmd argument, available arguments are: generate, useGenerated")
                 };
-                return Host.CreateDefaultBuilder(args)
-                    .ConfigureServices((hostContext, services) =>
-                    {
-                        Console.WriteLine($"db path is: {hostContext.Configuration.GetConnectionString("ExperimentDatabase")}");
-                        var uris = new List<Uri>();
-                        uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player1")!));
-                        uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player2")!));
-                        var expConfig = new ExperimentConfig {Uris = uris};
-                        services.AddHostedService<DbExperimentWorker>();
-                        services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
-                        services.AddScoped<IExperiment, NoShuffleHttpExperiment>();
-                        services.AddSingleton<ExperimentConditionService>();
-                        services.AddDbContextFactory<ExperimentConditionContext>(
-                            options => options.UseSqlite(
-                                hostContext.Configuration.GetConnectionString("ExperimentDatabase")));
-                        services.AddSingleton(myConfig);
-                        services.AddSingleton(expConfig);
-                    });
+                switch (args[2])
+                {
+                    case "http":
+                        return Host.CreateDefaultBuilder(args)
+                            .ConfigureServices((hostContext, services) =>
+                            {
+                                Console.WriteLine($"db path is: {hostContext.Configuration.GetConnectionString("ExperimentDatabase")}");
+                                var uris = new List<Uri>();
+                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player1")!));
+                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player2")!));
+                                var expConfig = new ExperimentConfig {Uris = uris};
+                                services.AddHostedService<DbExperimentWorker>();
+                                services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
+                                services.AddScoped<IExperiment, NoShuffleHttpExperiment>();
+                                services.AddSingleton<ExperimentConditionService>();
+                                services.AddDbContextFactory<ExperimentConditionContext>(
+                                    options => options.UseSqlite(
+                                        hostContext.Configuration.GetConnectionString("ExperimentDatabase")));
+                                services.AddSingleton(myConfig);
+                                services.AddSingleton(expConfig);
+                            });
+                    
+                    case "rabbitmq":
+                        return Host.CreateDefaultBuilder(args)
+                            .ConfigureServices((hostContext, services) =>
+                            {
+                                Console.WriteLine($"db path is: {hostContext.Configuration.GetConnectionString("ExperimentDatabase")}");
+                                var uris = new List<Uri>();
+                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player1")!));
+                                uris.Add(new Uri(hostContext.Configuration.GetConnectionString("Player2")!));
+                                var expConfig = new ExperimentConfig {Uris = uris};
+                                services.AddHostedService<DbExperimentWorker>();
+                                services.AddSingleton<IDeckShuffler, RandomDeckShuffler>();
+                                services.AddScoped<IExperiment, NoShuffleRabbitExperiment>();
+                                services.AddSingleton<ExperimentConditionService>();
+                                services.AddDbContextFactory<ExperimentConditionContext>(
+                                    options => options.UseSqlite(
+                                        hostContext.Configuration.GetConnectionString("ExperimentDatabase")));
+                                services.AddSingleton(myConfig);
+                                services.AddSingleton(expConfig);
+                                services.AddMassTransit(x =>
+                                {
+                                    x.UsingRabbitMq((context, conf) =>
+                                    {
+                                        conf.Host("localhost", "/", h =>
+                                        {
+                                            h.Username("rmuser");
+                                            h.Password("rmpassword");
+                                        });
+                                    });
+                                });
+                                services.AddScoped<TellCardIndexProducer>();
+                            });
+                    
+                    default: throw new ArgumentException("3 argument must have value http or rabbitmq");
+                }
+                
             }
             default:
-                throw new InvalidAmountOfArgumentsException($"wrong amount of arguments, expected 1 or 2 has {args.Length}");
+                throw new InvalidAmountOfArgumentsException($"wrong amount of arguments, expected 1 or 3 has {args.Length}");
         }
     }
 }

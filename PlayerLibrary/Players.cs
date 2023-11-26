@@ -1,7 +1,6 @@
-﻿using Colosseum.Abstractions;
-using StrategyLibrary.Interfaces;
+﻿using StrategyLibrary.Interfaces;
 
-namespace Colosseum.Impl;
+namespace PlayerLibrary;
 
 public class ElonMask : AbstractPlayer
 {

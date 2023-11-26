@@ -1,3 +1,6 @@
+using MassTransit;
+using SharedTransitLibrary;
+
 namespace PlayersWebApp;
 
 public class WebStarter
@@ -17,6 +20,14 @@ public class WebStarter
             Console.Error.WriteLine($"Wrong amount of arguments: expected 1, has {args.Length}");
         }
         var app = CreateBuilder(args).Build();
+        switch (args[0])
+        {
+            case "Elon":
+                break;
+            
+            case "Mark":
+                break;
+        }
         app.Run();
     } 
 }

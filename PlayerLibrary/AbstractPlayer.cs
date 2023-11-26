@@ -1,8 +1,7 @@
 ﻿using CardLibrary;
-using StrategyLibrary;
 using StrategyLibrary.Interfaces;
 
-namespace Colosseum.Abstractions;
+namespace PlayerLibrary;
 
 public abstract class AbstractPlayer
 {
