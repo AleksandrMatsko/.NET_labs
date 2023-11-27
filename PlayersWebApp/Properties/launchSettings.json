@@ -7,9 +7,9 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5031",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "commandLineArgs": "Elon"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "PLAYER": "Elon"
+      }
     },
     "Mark Zuckerberg": {
       "commandName": "Project",
@@ -18,9 +18,9 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5032",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "commandLineArgs": "Mark"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "PLAYER": "Mark"
+      }
     }
   }
 }

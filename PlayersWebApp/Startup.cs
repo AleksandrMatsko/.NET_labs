@@ -10,21 +10,21 @@ namespace PlayersWebApp;
 public class Startup
 {
     private readonly AbstractPlayer _player;
+    private readonly WebHostBuilderContext _builderContext;
 
-    public Startup(string playerName)
+    public Startup(WebHostBuilderContext context)
     {
-        switch (playerName)
+        _builderContext = context;
+        _player = _builderContext.Configuration["PLAYER"]! switch
         {
-            case "Elon":
-            {
-                _player = new ElonMask(new PickLastCardStrategy());
-                break;
-            }
-            case "Mark": {
-                _player = new MarkZuckerberg(new PickLastCardStrategy());
-                break;
-            }
-            default: throw new ArgumentException("bad player name");
+            "Elon" => new ElonMask(new PickLastCardStrategy()),
+            "Mark" => new MarkZuckerberg(new PickLastCardStrategy()),
+            _ => throw new ArgumentException("bad player name")
+        };
+
+        foreach (var c in _builderContext.Configuration.AsEnumerable())
+        {
+            Console.WriteLine($"{c.Key} = {c.Value}");
         }
     }
     
@@ -42,35 +42,25 @@ public class Startup
             
             x.UsingRabbitMq((context, conf) =>
             {
-                conf.Host("localhost", "/", h =>
+                conf.Host(
+                    _builderContext.Configuration["RabbitMQ:host"]!, 
+                    _builderContext.Configuration["RabbitMQ:virtualHost"]!, 
+                    h =>
                 {
-                    h.Username("rmuser");
-                    h.Password("rmpassword");
+                    h.Username(_builderContext.Configuration["RabbitMQ:user"]!);
+                    h.Password(_builderContext.Configuration["RabbitMQ:password"]!);
                 });
-                conf.ReceiveEndpoint("SharedTransitLibrary:CardIndexTold", e =>
+                conf.ReceiveEndpoint(_builderContext.Configuration.GetConnectionString("publishUrl")!, e =>
                 {
                     e.ConfigureConsumer<CardIndexToldConsumer>(context);
                 });
-
-                switch (_player.Name)
+                
+                conf.ReceiveEndpoint(_builderContext.Configuration["PLAYER"]! + ":" + 
+                                     _builderContext.Configuration.GetConnectionString("selfQueue"),
+                    e =>
                 {
-                    case "Elon Mask":
-                    {
-                        conf.ReceiveEndpoint("Elon.SharedTransitLibrary.TellCardIndex", e =>
-                        {
-                            e.ConfigureConsumer<TellCardIndexConsumer>(context);
-                        });
-                        break;
-                    }
-                    case "Mark Zuckerberg":
-                    {
-                        conf.ReceiveEndpoint("Mark.SharedTransitLibrary.TellCardIndex", e =>
-                        {
-                            e.ConfigureConsumer<TellCardIndexConsumer>(context);
-                        });
-                        break;
-                    }    
-                }
+                    e.ConfigureConsumer<TellCardIndexConsumer>(context);
+                });
             });
             services.AddSingleton<CardIndexToldService>();
             services.AddSingleton<ICardIndexToldHandler, CardIndexToldHandler>();

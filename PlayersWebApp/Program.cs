@@ -9,25 +9,13 @@ public class WebStarter
     {
         return Host.CreateDefaultBuilder().ConfigureWebHostDefaults(webBuilder =>
         {
-            webBuilder.UseStartup(w => new Startup(args[0]));
+            webBuilder.UseStartup(w => new Startup(w));
         });
     }
     
     public static void Main(string[] args)
     {
-        if (args.Length != 1)
-        {
-            Console.Error.WriteLine($"Wrong amount of arguments: expected 1, has {args.Length}");
-        }
         var app = CreateBuilder(args).Build();
-        switch (args[0])
-        {
-            case "Elon":
-                break;
-            
-            case "Mark":
-                break;
-        }
         app.Run();
     } 
 }
