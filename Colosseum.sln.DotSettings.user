@@ -9,7 +9,7 @@
     &lt;TestId&gt;NUnit3x::7EFF3F9D-91F6-449E-8B05-5A092F75F69D::net7.0::ColosseumTests.ShuffleableCardDeckTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8ed670fa_002D55c7_002D4a75_002D9b64_002D539ddaccfed2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestPlayerFollowsStrategy" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8ed670fa_002D55c7_002D4a75_002D9b64_002D539ddaccfed2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestPlayerFollowsStrategy" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\AMats\RiderProjects\Colosseum\ColosseumTests" Presentation="&amp;lt;ColosseumTests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9f1bbc53_002Db10c_002D4a76_002Dbcb2_002D204f47a55aec/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PlayersTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -36,6 +36,6 @@
     &lt;TestId&gt;NUnit3x::7EFF3F9D-91F6-449E-8B05-5A092F75F69D::net7.0::ColosseumTests.ShuffleableCardDeckTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f5f72ad3_002D11e5_002D41bb_002D8bbe_002D7656611b73bf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f5f72ad3_002D11e5_002D41bb_002D8bbe_002D7656611b73bf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\AMats\RiderProjects\Colosseum\ColosseumTests" Presentation="&amp;lt;ColosseumTests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -1,6 +1,3 @@
-using MassTransit;
-using SharedTransitLibrary;
-
 namespace PlayersWebApp;
 
 public class WebStarter

@@ -4,7 +4,7 @@ using PlayerLibrary;
 
 namespace SharedTransitLibrary;
 
-public class TellCardIndexConsumer : IConsumer<TellCardIndexToPartner>
+public class TellCardIndexConsumer : IConsumer<TellCardIndex>
 {
     private readonly AbstractPlayer _player;
     private readonly ILogger<TellCardIndexConsumer> _logger;
@@ -12,14 +12,15 @@ public class TellCardIndexConsumer : IConsumer<TellCardIndexToPartner>
 
     public TellCardIndexConsumer(
         ILogger<TellCardIndexConsumer> logger, 
-        AbstractPlayer player, ITellCardIndexStorage storage)
+        AbstractPlayer player, 
+        ITellCardIndexStorage storage)
     {
         _logger = logger;
         _player = player;
         _storage = storage;
     }
 
-    public async Task Consume(ConsumeContext<TellCardIndexToPartner> context)
+    public async Task Consume(ConsumeContext<TellCardIndex> context)
     {
         _logger.LogInformation(
             $"TellCardIndexConsumer consumed message with ExperimentId: {context.Message.ExperimentId}");

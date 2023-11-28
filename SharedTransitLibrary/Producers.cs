@@ -24,7 +24,7 @@ public class TellCardIndexProducer
         }
 
         var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(uri);
-        await sendEndpoint.Send(new TellCardIndexToPartner
+        await sendEndpoint.Send(new TellCardIndex
         {
             ExperimentId = requestId, 
             CardDtos = dtos

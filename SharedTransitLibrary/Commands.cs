@@ -2,7 +2,7 @@
 
 namespace SharedTransitLibrary;
 
-public class TellCardIndexToPartner
+public class TellCardIndex
 {
     public Guid ExperimentId { get; set; }
     public IList<TransitCardDto> CardDtos { get; set; }
