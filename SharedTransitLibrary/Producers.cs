@@ -15,7 +15,7 @@ public class TellCardIndexProducer
         _lifetime = lifetime;
     }
 
-    public async Task SendDeck(Guid requestId, CardDeck deck, Uri uri)
+    public async Task SendDeck(Guid experimentId, CardDeck deck, Uri uri)
     {
         var dtos = new List<TransitCardDto>();
         for (int i = 0; i < deck.Length; i++)
@@ -26,7 +26,7 @@ public class TellCardIndexProducer
         var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(uri);
         await sendEndpoint.Send(new TellCardIndex
         {
-            ExperimentId = requestId, 
+            ExperimentId = experimentId, 
             CardDtos = dtos
         }, _lifetime.ApplicationStopping);
     }

@@ -41,7 +41,6 @@ public class ConsumersTests
         var harness = provider.GetRequiredService<ITestHarness>();
         await harness.Start();
         var experimentId = Guid.NewGuid();
-        Console.WriteLine($"\ntest experimentId = {experimentId}\n");
         var cardDtos = new List<TransitCardDto>
         {
             new() {Color = CardColor.Black, Number = 0}, 
@@ -60,7 +59,6 @@ public class ConsumersTests
         Assert.That(await consumerHarness.Consumed.Any<TellCardIndex>(
             x =>
             {
-                Console.WriteLine($"\nreceived {x.Context.Message.ExperimentId}\n");
                 return cardDtos.Zip(
                     x.Context.Message.CardDtos, 
                     (before, after) => 
