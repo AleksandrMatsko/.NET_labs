@@ -34,61 +34,64 @@ public class DbExperimentWorker : BackgroundService
 
     private Task Generate(CancellationToken stoppingToken)
     {
-        try
+        return Task.Run(() =>
         {
-            _service.RecreateDb();
-            for (var i = 0; i < _config.ExperimentCount && !stoppingToken.IsCancellationRequested; i++)
+            try
             {
-                var deck = Shuffleable36CardDeck.CreateCardDeck();
-                _shuffler.Shuffle(deck);
-                _service.AddOne(deck);
+                _service.RecreateDb();
+                for (var i = 0; i < _config.ExperimentCount && !stoppingToken.IsCancellationRequested; i++)
+                {
+                    var deck = Shuffleable36CardDeck.CreateCardDeck();
+                    _shuffler.Shuffle(deck);
+                    _service.AddOne(deck);
+                }
+                _logger.LogInformation($"generated {_config.ExperimentCount} experiments");
             }
-            _logger.LogInformation($"generated {_config.ExperimentCount} experiments");
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e.Message);
-        }
-        finally
-        {
-            _lifetime.StopApplication();
-        }
-        return Task.CompletedTask;
+            catch (Exception e)
+            {
+                _logger.LogCritical(e.Message);
+            }
+            finally
+            {
+                _lifetime.StopApplication();
+            }
+        }, stoppingToken);
     }
 
-    private Task UseGenerated(CancellationToken stoppingToken)
+    private async Task UseGenerated(CancellationToken stoppingToken)
     {
-        var success = 0;
-        var experimentsCompleted = 0;
-        try
+        await Task.Run(async () =>
         {
-            var decks = _service.GetFirstN(_config.ExperimentCount);
-            for (var i = 0; i < decks.Count && !stoppingToken.IsCancellationRequested; i++)
+            var success = 0;
+            var experimentsCompleted = 0;
+            try
             {
-                var cardsList = decks[i].Cast<Card>().ToList();
-
-                if (_experiment.Do(new ShuffleableCardDeck(cardsList)))
+                var decks = _service.GetFirstN(_config.ExperimentCount);
+                for (var i = 0; i < decks.Count && !stoppingToken.IsCancellationRequested; i++)
                 {
-                    success += 1;
-                }
+                    var cardsList = decks[i].Cast<Card>().ToList();
 
-                experimentsCompleted += 1;
-                _logger.LogInformation($"experiments completed = {experimentsCompleted}");
-            }
+                    if (_experiment.Do(new ShuffleableCardDeck(cardsList)))
+                    {
+                        success += 1;
+                    }
+
+                    experimentsCompleted += 1;
+                    _logger.LogInformation($"experiments completed = {experimentsCompleted}");
+                }
             
-            Console.WriteLine($"\nExperiments completed: {experimentsCompleted}");
-            Console.WriteLine($"Success rate: {(double)success / experimentsCompleted}\n");
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e.Message);
-        }
-        finally
-        {
-            _lifetime.StopApplication();
-        }
-        
-        return Task.CompletedTask;
+                Console.WriteLine($"\nExperiments completed: {experimentsCompleted}");
+                Console.WriteLine($"Success rate: {(double)success / experimentsCompleted}\n");
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e.Message);
+            }
+            finally
+            {
+                _lifetime.StopApplication();
+            }
+        }, stoppingToken);
     }
     
     protected override Task ExecuteAsync(CancellationToken stoppingToken)

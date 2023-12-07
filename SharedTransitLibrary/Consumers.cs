@@ -20,14 +20,14 @@ public class TellCardIndexConsumer : IConsumer<TellCardIndex>
         _storage = storage;
     }
 
-    public async Task Consume(ConsumeContext<TellCardIndex> context)
+    public Task Consume(ConsumeContext<TellCardIndex> context)
     {
         _logger.LogInformation(
             $"TellCardIndexConsumer consumed message with ExperimentId: {context.Message.ExperimentId}");
         var deck = context.Message.ToCardDeck();
         var indx = _player.Choose(deck);
         _storage.AddExperiment(context.Message.ExperimentId, deck);
-        await context.Publish(new CardIndexTold
+        return context.Publish(new CardIndexTold
         {
             ExperimentId = context.Message.ExperimentId, 
             Index = indx,
@@ -38,10 +38,10 @@ public class TellCardIndexConsumer : IConsumer<TellCardIndex>
 
 public class CardIndexToldConsumer : IConsumer<CardIndexTold>
 {
-    private readonly ILogger<TellCardIndexConsumer> _logger;
+    private readonly ILogger<CardIndexToldConsumer> _logger;
     private readonly ICardIndexToldHandler _handler;
 
-    public CardIndexToldConsumer(ILogger<TellCardIndexConsumer> logger, ICardIndexToldHandler handler)
+    public CardIndexToldConsumer(ILogger<CardIndexToldConsumer> logger, ICardIndexToldHandler handler)
     {
         _logger = logger;
         _handler = handler;

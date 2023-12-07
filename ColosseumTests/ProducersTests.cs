@@ -50,7 +50,7 @@ public class ProducersTests
         var experimentId = Guid.NewGuid();
         var deck = new CardDeck(CardDeckUtils.PrepareCards(18));
         
-        var producer = new TellCardIndexProducer(endpointProviderMock.Object, lifetime);
+        var producer = new TellCardIndexProducer(endpointProviderMock.Object, lifetime, new Logger<TellCardIndexProducer>(lf));
 
         await producer.SendDeck(experimentId, deck, new Uri("queue:SharedTransitLibrary.TellCardIndex"));
         

@@ -1,9 +1,10 @@
 ﻿using CardLibrary.Abstractions;
 using CardLibrary.Impl;
 using CardStorage;
-using Colosseum.Impl;
+using Colosseum.Experiments;
 using Colosseum.Abstractions;
 using Colosseum.Exceptions;
+using Colosseum.RabbitMQ;
 using Colosseum.Workers;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -94,6 +95,8 @@ class Program
                                 services.AddScoped<IExperiment, NoShuffleRabbitExperiment>();
                                 services.AddMassTransit(x =>
                                 {
+                                    x.AddConsumer<CardIndexToldConsumer>();
+                                    
                                     x.UsingRabbitMq((context, conf) =>
                                     {
                                         conf.Host(
@@ -105,9 +108,17 @@ class Program
                                             h.Username(hostContext.Configuration["RabbitMQ:user"]!);
                                             h.Password(hostContext.Configuration["RabbitMQ:password"]!);
                                         });
+                                        
+                                        conf.ReceiveEndpoint(hostContext.Configuration.GetConnectionString("publishUrl")!, e =>
+                                        {
+                                            e.ConfigureConsumer<CardIndexToldConsumer>(context);
+                                        });
                                     });
                                 });
-                                services.AddScoped<TellCardIndexProducer>();
+                                var h = new CardIndexToldHandler();
+                                services.AddSingleton<TellCardIndexProducer>();
+                                services.AddSingleton<ICardIndexToldHandler>(h);
+                                services.AddSingleton(h);
                             });
                     
                     default: throw new ArgumentException("3 argument must have value 'http' or 'rabbitmq'");

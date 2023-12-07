@@ -12,29 +12,5 @@ services:
       - ./rabbitmq:/var/lib/rabbitmq
     ports:
       - "15672:15672"
-      - "5672:5672"
-
-  elon:
-    depends_on: 
-      - rabbitmq
-    
-    build: ./PlayersWebApp/
-    environment:
-      - RabbitMQ:host=rabbitmq
-      - PLAYER=Elon
-    
-    ports:
-      - "5031:80"
-        
-  mark:
-    depends_on:
-      - rabbitmq
-
-    build: ./PlayersWebApp/
-    environment:
-      - RabbitMQ:host=rabbitmq
-      - PLAYER=Mark
-
-    ports:
-      - "5032:80"      
+      - "5672:5672"    
     

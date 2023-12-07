@@ -1,11 +1,12 @@
-﻿using CardLibrary;
+﻿using System.Collections.Concurrent;
+using CardLibrary;
 using SharedTransitLibrary;
 
 namespace PlayersWebApp;
 
 public class TellCardIndexStorage : ITellCardIndexStorage
 {
-    private readonly IDictionary<Guid, CardDeck> _decks = new Dictionary<Guid, CardDeck>();
+    private readonly IDictionary<Guid, CardDeck> _decks = new ConcurrentDictionary<Guid, CardDeck>();
     
     public void AddExperiment(Guid experimentId, CardDeck deck)
     {

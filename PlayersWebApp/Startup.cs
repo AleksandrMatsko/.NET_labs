@@ -52,6 +52,7 @@ public class Startup
                 });
                 conf.ReceiveEndpoint(_builderContext.Configuration.GetConnectionString("publishUrl")!, e =>
                 {
+                    e.PurgeOnStartup = true;
                     e.ConfigureConsumer<CardIndexToldConsumer>(context);
                 });
                 
@@ -59,6 +60,7 @@ public class Startup
                                      _builderContext.Configuration.GetConnectionString("selfQueue"),
                     e =>
                 {
+                    e.PurgeOnStartup = true;
                     e.ConfigureConsumer<TellCardIndexConsumer>(context);
                 });
             });

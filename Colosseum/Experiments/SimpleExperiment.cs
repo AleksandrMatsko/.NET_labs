@@ -5,7 +5,7 @@ using Colosseum.Exceptions;
 using Microsoft.Extensions.Logging;
 using PlayerLibrary;
 
-namespace Colosseum.Impl;
+namespace Colosseum.Experiments;
 
 public class SimpleExperiment : IExperiment
 {

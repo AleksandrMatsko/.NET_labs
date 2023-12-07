@@ -4,7 +4,7 @@ using Colosseum.Client;
 using Colosseum.Exceptions;
 using Microsoft.Extensions.Logging;
 
-namespace Colosseum.Impl;
+namespace Colosseum.Experiments;
 
 public class NoShuffleHttpExperiment : IExperiment
 {
