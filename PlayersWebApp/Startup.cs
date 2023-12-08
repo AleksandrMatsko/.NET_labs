@@ -50,7 +50,7 @@ public class Startup
                     h.Username(_builderContext.Configuration["RabbitMQ:user"]!);
                     h.Password(_builderContext.Configuration["RabbitMQ:password"]!);
                 });
-                conf.ReceiveEndpoint(_builderContext.Configuration.GetConnectionString("publishUrl")!, e =>
+                conf.ReceiveEndpoint(_builderContext.Configuration["PLAYER"]! + "PublishQueue", e =>
                 {
                     e.PurgeOnStartup = true;
                     e.ConfigureConsumer<CardIndexToldConsumer>(context);

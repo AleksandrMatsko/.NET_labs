@@ -1,6 +1,6 @@
-﻿version: "2.1"
+﻿version: "3"
 services:
-  rabbitmq:
+  rabbit:
     image: rabbitmq:3.10.7-management
     hostname: rabbitmq
     restart: always
@@ -12,5 +12,36 @@ services:
       - ./rabbitmq:/var/lib/rabbitmq
     ports:
       - "15672:15672"
-      - "5672:5672"    
+      - "5672:5672"  
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 5s
+      timeout: 20s
+      retries: 5
+    
+  elon:
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    
+    build: ./PlayersWebApp/
+    environment:
+      - RabbitMQ:host=rabbitmq
+      - PLAYER=Elon
+    
+    ports:
+      - "5031:80"
+  
+  mark:
+    depends_on:
+      rabbit:
+        condition: service_healthy
+
+    build: ./PlayersWebApp/
+    environment:
+      - RabbitMQ:host=rabbitmq
+      - PLAYER=Mark
+
+    ports:
+      - "5032:80" 
     

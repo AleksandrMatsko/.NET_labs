@@ -18,7 +18,7 @@ public class CardIndexToldHandler : ICardIndexToldHandler
             var ok = _messages.TryGetValue(message.ExperimentId, out var msgList);
             if (!ok)
             {
-                _messages.Add(message.ExperimentId, new List<CardIndexTold> {message});
+                _messages[message.ExperimentId] = new List<CardIndexTold> { message };
                 return;
             }
             msgList!.Add(message);
@@ -31,7 +31,7 @@ public class CardIndexToldHandler : ICardIndexToldHandler
             }
             else
             {
-                _messages.Add(message.ExperimentId, msgList);
+                _messages[message.ExperimentId] = msgList;
             }
         }
     }
@@ -42,15 +42,17 @@ public class CardIndexToldHandler : ICardIndexToldHandler
         lock (_lock)
         {
             var ok = _messages.TryGetValue(experimentId, out var msgList);
-            if (ok)
+            if (ok && msgList?.Count == 2)
             {
                 _messages.Remove(experimentId);
                 t = Task.FromResult(msgList!);
             }
-
-            var tcs = new TaskCompletionSource<IList<CardIndexTold>>();
-            _waitedMessages.Add(experimentId, tcs);
-            t = tcs.Task;
+            else
+            {
+                var tcs = new TaskCompletionSource<IList<CardIndexTold>>();
+                _waitedMessages.Add(experimentId, tcs);
+                t = tcs.Task;    
+            }
         }
 
         return await t;

@@ -108,11 +108,7 @@ class Program
                                             h.Username(hostContext.Configuration["RabbitMQ:user"]!);
                                             h.Password(hostContext.Configuration["RabbitMQ:password"]!);
                                         });
-                                        
-                                        conf.ReceiveEndpoint(hostContext.Configuration.GetConnectionString("publishUrl")!, e =>
-                                        {
-                                            e.ConfigureConsumer<CardIndexToldConsumer>(context);
-                                        });
+                                        conf.ConfigureEndpoints(context);
                                     });
                                 });
                                 var h = new CardIndexToldHandler();

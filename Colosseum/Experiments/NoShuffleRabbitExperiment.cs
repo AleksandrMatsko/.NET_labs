@@ -49,13 +49,13 @@ public class NoShuffleRabbitExperiment : IExperiment
         var mqT2 = _producer.SendDeck(id, second, _secondMqUri);
         Task.WaitAll(mqT1, mqT2);
 
-        /*var msgList = _handler.GetMessage(id).Result;
+        var msgList = _handler.GetMessage(id).Result;
         if (msgList.Count != 2)
         {
             throw new NotEnoughPlayersException($"expected choice from 2 players, have {msgList.Count}");
         }
         
-        /*var httpT1 = _firstAsker.Ask(new AskForExperimentDto { ExperimentId = id });
+        var httpT1 = _firstAsker.Ask(new AskForExperimentDto { ExperimentId = id });
         var httpT2 = _secondAsker.Ask(new AskForExperimentDto { ExperimentId = id });
         _logger.LogInformation($"Experiment participants {httpT1.Result.Name} and {httpT2.Result.Name}");
         bool firstPlayerOk = false, secondPlayerOk = false;
@@ -70,8 +70,7 @@ public class NoShuffleRabbitExperiment : IExperiment
             firstPlayerOk = httpT2.Result.Color == second[msgList[1].Index].Color;
         }
 
-        return firstPlayerOk && secondPlayerOk && httpT1.Result.Color == httpT2.Result.Color;*/
-        return false;
+        return firstPlayerOk && secondPlayerOk && httpT1.Result.Color == httpT2.Result.Color;
     }
 }
 
