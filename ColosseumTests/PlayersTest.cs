@@ -1,5 +1,4 @@
 ﻿using CardLibrary;
-using Colosseum.Impl;
 using ColosseumTests.DeckTests;
 using Moq;
 using PlayerLibrary;

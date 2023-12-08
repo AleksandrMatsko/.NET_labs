@@ -1,7 +1,6 @@
 ﻿using CardLibrary;
 using CardLibrary.Abstractions;
-using Colosseum.Abstractions;
-using Colosseum.Impl;
+using Colosseum.Experiments;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PlayerLibrary;
