@@ -1,6 +1,8 @@
-﻿namespace Colosseum.Abstractions;
+﻿using CardLibrary;
+
+namespace Colosseum.Abstractions;
 
 public interface IExperiment
 {
-    bool Do();
+    bool Do(ShuffleableCardDeck deck);
 }

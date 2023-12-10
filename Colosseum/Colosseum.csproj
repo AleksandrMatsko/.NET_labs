@@ -13,13 +13,22 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <None Remove="appsettings.json" />
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CardStorage\CardStorage.csproj" />
+      <ProjectReference Include="..\SharedTransitLibrary\SharedTransitLibrary.csproj" />
       <ProjectReference Include="..\StrategyLibrary\StrategyLibrary.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="MassTransit" Version="8.1.2" />
+      <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.2" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
       <PackageReference Include="Moq" Version="4.20.69" />
     </ItemGroup>

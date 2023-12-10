@@ -1,6 +1,8 @@
-﻿namespace CardLibrary;
+﻿using System.Collections;
 
-public class CardDeck
+namespace CardLibrary;
+
+public class CardDeck : IEnumerable
 {
     protected readonly Card[] Cards;
     
@@ -16,6 +18,11 @@ public class CardDeck
     public CardDeck(IList<Card> cards)
     {
         Cards = cards.ToArray();
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        return Cards.GetEnumerator();
     }
 }
 
@@ -41,8 +48,12 @@ public class ShuffleableCardDeck : CardDeck
     public virtual void Split(out CardDeck first, out CardDeck second)
     {
         var mid = Cards.Length / 2;
-        first = new CardDeck(Cards.Take(mid).ToArray());
-        second = new CardDeck(Cards.Skip(mid).ToArray());
+        Span<Card> cardsSpan = Cards;
+        var firstSpan = cardsSpan[..mid];
+        var secondSpan = cardsSpan.Slice(mid, Cards.Length - mid);
+        
+        first = new CardDeck(firstSpan.ToArray());
+        second = new CardDeck(secondSpan.ToArray());
     }
 }
 
